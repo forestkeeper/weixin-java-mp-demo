@@ -7,6 +7,7 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import com.github.binarywang.demo.spring.config.WxMpConfig;
@@ -29,7 +30,8 @@ import me.chanjar.weixin.mp.bean.kefu.result.WxMpKfOnlineList;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 
-import java.io.InputStreamReader;
+import java.io.IOException;
+
 
 /**
  * 
@@ -68,19 +70,22 @@ public class WeixinService extends WxMpServiceImpl {
   private UnsubscribeHandler unsubscribeHandler;
 
   @Autowired
+  private ApplicationContext appContext;
+
+  @Autowired
   private SubscribeHandler subscribeHandler;
 
   private WxMpMessageRouter router;
 
   @PostConstruct
-  public void init() throws WxErrorException {
+  public void init() throws WxErrorException, IOException {
     final WxMpInMemoryConfigStorage config = new WxMpInMemoryConfigStorage();
     config.setAppId(this.wxConfig.getAppid());// 设置微信公众号的appid
     config.setSecret(this.wxConfig.getAppsecret());// 设置微信公众号的app corpSecret
     config.setToken(this.wxConfig.getToken());// 设置微信公众号的token
     config.setAesKey(this.wxConfig.getAesKey());// 设置消息加解密密钥
     super.setWxMpConfigStorage(config);
-    WxMenu wxMenu = WxMenu.fromJson(this.getClass().getResourceAsStream("menu.json"));
+    WxMenu wxMenu = WxMenu.fromJson(appContext.getResource("classpath:menu.json").getInputStream());
     super.getMenuService().menuCreate(wxMenu);
     this.refreshRouter();
   }
