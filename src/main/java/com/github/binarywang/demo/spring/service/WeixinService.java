@@ -86,7 +86,7 @@ public class WeixinService extends WxMpServiceImpl {
     config.setAesKey(this.wxConfig.getAesKey());// 设置消息加解密密钥
     super.setWxMpConfigStorage(config);
     WxMenu wxMenu = WxMenu.fromJson(appContext.getResource("classpath:menu.json").getInputStream());
-    wxMenu.getButtons().get(2).getSubButtons().get(0).setUrl(
+    wxMenu.getButtons().get(0).setUrl(
             this.oauth2buildAuthorizationUrl("http://47.92.81.57","snsapi_base","123"));
 
     super.getMenuService().menuCreate(wxMenu);
