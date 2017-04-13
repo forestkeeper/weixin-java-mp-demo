@@ -29,7 +29,7 @@ public class WebController {
         try {
             WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(code);
             WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, "zh_CN");
-            return wxMpUser.getOpenId();
+            return "your nickname is :" + wxMpUser.getNickname();
         } catch (WxErrorException e) {
             return "auth failed";
         }
