@@ -3,7 +3,7 @@
     "button":[
       {
         "type":"view",
-        "name":"搜索",
+        "name":"认证",
         "url":"http://www.soso.com/",
         "sub_button":[
 
