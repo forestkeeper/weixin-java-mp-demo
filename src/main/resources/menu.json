@@ -10,9 +10,9 @@
         ]
       },
       {
-        "type":"click",
-        "name":"menu2",
-        "key":"V1001_TODAY_SINGER",
+        "type":"view",
+        "name":"预约",
+        "url":"http://47.92.81.57/weixin/example/#uploader",
         "sub_button":[
 
         ]
