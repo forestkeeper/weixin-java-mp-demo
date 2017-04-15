@@ -25,7 +25,7 @@ public class WebController {
     @ResponseBody
     @GetMapping(produces = "text/plain;charset=utf-8")
     public String testAuth(@RequestParam(name = "code", required = true) String code,
-                           @RequestParam(name = "code", required = true) String state){
+                           @RequestParam(name = "state", required = true) String state){
         try {
             WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(code);
             WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, "zh_CN");
