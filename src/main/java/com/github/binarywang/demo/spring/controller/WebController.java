@@ -17,7 +17,6 @@ import javax.servlet.http.HttpSession;
  */
 
 @Controller
-@RequestMapping("/auth")
 public class WebController {
 
     @Autowired
@@ -25,7 +24,7 @@ public class WebController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @ResponseBody
+    @RequestMapping("/auth")
     public String testAuth(HttpSession session, @RequestParam(name = "code", required = true) String code,
                            @RequestParam(name = "state", required = true) String state){
         try {
