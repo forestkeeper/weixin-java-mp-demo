@@ -12,7 +12,7 @@
       {
         "type":"view",
         "name":"预约",
-        "url":"http://47.92.81.57/weixin/example",
+        "url":"http://47.92.81.57/weixin/uploader",
         "sub_button":[
 
         ]
