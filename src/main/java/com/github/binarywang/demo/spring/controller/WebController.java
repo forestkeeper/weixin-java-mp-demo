@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpSession;
+
 
 /**
  * Created by wen on 2017/4/13.
@@ -24,11 +26,12 @@ public class WebController {
 
     @ResponseBody
     @GetMapping(produces = "text/plain;charset=utf-8")
-    public String testAuth(@RequestParam(name = "code", required = true) String code,
+    public String testAuth(HttpSession session, @RequestParam(name = "code", required = true) String code,
                            @RequestParam(name = "state", required = true) String state){
         try {
             WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(code);
             WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, "zh_CN");
+            session.setAttribute("userOpenId", wxMpUser.getOpenId());
             return "your nickname is :" + wxMpUser.getNickname();
         } catch (WxErrorException e) {
             return "auth failed";
