@@ -78,18 +78,26 @@ public class WeixinService extends WxMpServiceImpl {
   private WxMpMessageRouter router;
 
   @PostConstruct
-  public void init() throws WxErrorException, IOException {
+  public void init() {
     final WxMpInMemoryConfigStorage config = new WxMpInMemoryConfigStorage();
     config.setAppId(this.wxConfig.getAppid());// 设置微信公众号的appid
     config.setSecret(this.wxConfig.getAppsecret());// 设置微信公众号的app corpSecret
     config.setToken(this.wxConfig.getToken());// 设置微信公众号的token
     config.setAesKey(this.wxConfig.getAesKey());// 设置消息加解密密钥
     super.setWxMpConfigStorage(config);
-    WxMenu wxMenu = WxMenu.fromJson(appContext.getResource("classpath:menu.json").getInputStream());
-    wxMenu.getButtons().get(0).setUrl(
-            this.oauth2buildAuthorizationUrl(this.wxConfig.getUrlBase() + "/weixin/auth","snsapi_userinfo","123"));
-
-    super.getMenuService().menuCreate(wxMenu);
+    WxMenu wxMenu = null;
+    try {
+      wxMenu = WxMenu.fromJson(appContext.getResource("classpath:menu.json").getInputStream());
+      wxMenu.getButtons().get(0).setUrl(
+              this.oauth2buildAuthorizationUrl(this.wxConfig.getUrlBase() + "/weixin/auth","snsapi_userinfo","123"));
+    } catch (IOException e) {
+      logger.error(e.getMessage());
+    }
+    try {
+      super.getMenuService().menuCreate(wxMenu);
+    } catch (WxErrorException e) {
+      logger.error(e.getMessage(), e);
+    }
     this.refreshRouter();
   }
 
