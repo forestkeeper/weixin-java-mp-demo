@@ -26,7 +26,6 @@ public class WebController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @ResponseBody
-    @GetMapping(produces = "text/plain;charset=utf-8")
     public String testAuth(HttpSession session, @RequestParam(name = "code", required = true) String code,
                            @RequestParam(name = "state", required = true) String state){
         try {
