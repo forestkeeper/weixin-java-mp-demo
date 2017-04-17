@@ -87,7 +87,7 @@ public class WeixinService extends WxMpServiceImpl {
     super.setWxMpConfigStorage(config);
     WxMenu wxMenu = WxMenu.fromJson(appContext.getResource("classpath:menu.json").getInputStream());
     wxMenu.getButtons().get(0).setUrl(
-            this.oauth2buildAuthorizationUrl("http://47.92.81.57/","snsapi_userinfo","123"));
+            this.oauth2buildAuthorizationUrl(this.wxConfig.getUrlBase() + "/weixin/auth","snsapi_userinfo","123"));
 
     super.getMenuService().menuCreate(wxMenu);
     this.refreshRouter();

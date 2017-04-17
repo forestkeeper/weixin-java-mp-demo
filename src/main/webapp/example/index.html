@@ -1,4 +1,14 @@
-<div class="page">
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>WeUI</title>
+    <link rel="stylesheet" href="../style/weui.css"/>
+    <link rel="stylesheet" href="./example.css"/>
+</head>
+<body>
+<div class="container" id="container"><div class="page uploader js_show">
     <div class="page__hd">
         <h1 class="page__title">Uploader</h1>
         <p class="page__desc">上传组件</p>
@@ -28,16 +38,16 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label for="" class="weui-label">日期</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="date" value=""/>
+                    <input class="weui-input" type="date" value="">
                 </div>
             </div>
             <div class="weui-cell weui-cell_vcode">
                 <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" placeholder="请输入验证码"/>
+                    <input class="weui-input" type="number" placeholder="请输入验证码">
                 </div>
                 <div class="weui-cell__ft">
-                    <img class="weui-vcode-img" src="./images/vcode.jpg" />
+                    <img class="weui-vcode-img" src="./images/vcode.jpg">
                 </div>
             </div>
         </div>
@@ -54,7 +64,7 @@
                             <ul class="weui-uploader__files" id="uploaderFiles">
                             </ul>
                             <div class="weui-uploader__input-box">
-                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple />
+                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="">
                             </div>
                         </div>
                     </div>
@@ -62,11 +72,11 @@
             </div>
         </div>
     </div>
-    <div class="page__ft">
-        <a href="javascript:home()"><img src="./images/icon_footer_link.png" /></a>
+    <div class="page__ft j_bottom">
+        <a href="javascript:home()"><img src="./images/icon_footer_link.png"></a>
     </div>
 </div>
-<script type="text/javascript">
+    <script type="text/javascript" class="uploader js_show">
     $(function(){
         var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
             $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
@@ -95,5 +105,6 @@
         $gallery.on("click", function(){
             $gallery.fadeOut(100);
         });
-    });
-</script>
+    });</script></div>
+</body>
+</html>

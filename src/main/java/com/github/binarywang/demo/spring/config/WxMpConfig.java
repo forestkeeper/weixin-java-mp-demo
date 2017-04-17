@@ -22,6 +22,13 @@ public class WxMpConfig {
   @Value("#{wxProperties.wx_aeskey}")
   private String aesKey;
 
+  @Value("#{wxProperties.url_base}")
+  private String urlBase;
+
+  public String getUrlBase() {
+    return urlBase;
+  }
+
   public String getToken() {
     return this.token;
   }
