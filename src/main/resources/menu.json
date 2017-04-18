@@ -2,11 +2,48 @@
   "menu":{
     "button":[
       {
-        "type":"view",
-        "name":"认证",
-        "url":"http://www.soso.com/",
+        "name":"检测中心",
         "sub_button":[
+          {
+            "type":"view",
+            "name":"一键导航",
+            "url":"http://ditu.baidu.com/",
+            "sub_button":[
 
+            ]
+          },
+          {
+            "type":"view",
+            "name":"车检流程",
+            "url":"",
+            "sub_button":[
+
+            ]
+          },
+          {
+            "type":"click",
+            "name":"进度查询",
+            "key":"预约中！",
+            "sub_button":[
+
+            ]
+          },
+          {
+            "type":"view",
+            "name":"预约检车",
+            "url":"http://47.92.81.57/weixin/uploader",
+            "sub_button":[
+
+            ]
+          },
+          {
+            "type":"view",
+            "name":"上门取车",
+            "url":"http://47.92.81.57/weixin/uploader",
+            "sub_button":[
+
+            ]
+          }
         ]
       },
       {

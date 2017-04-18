@@ -3,6 +3,7 @@ package com.github.binarywang.demo.spring.service;
 import javax.annotation.PostConstruct;
 
 import me.chanjar.weixin.common.bean.menu.WxMenu;
+import me.chanjar.weixin.common.bean.menu.WxMenuButton;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,10 +89,11 @@ public class WeixinService extends WxMpServiceImpl {
     WxMenu wxMenu = null;
     try {
       wxMenu = WxMenu.fromJson(appContext.getResource("classpath:menu.json").getInputStream());
-      wxMenu.getButtons().get(0).setUrl(
-              this.oauth2buildAuthorizationUrl(this.wxConfig.getUrlBase() + "/weixin/auth","snsapi_userinfo",this.wxConfig.getUrlBase() + "/weixin/auth/user"));
-      wxMenu.getButtons().get(1).setUrl(
-              this.oauth2buildAuthorizationUrl(this.wxConfig.getUrlBase() + "/weixin/auth", "snsapi_userinfo", wxMenu.getButtons().get(1).getUrl()));
+      for (WxMenuButton button : wxMenu.getButtons().get(0).getSubButtons()){
+        if (button.getType().equals("view")){
+          button.setUrl(this.oauth2buildAuthorizationUrl(button.getUrl(), "snsapi_userinfo","state"));
+        }
+      }
     } catch (IOException e) {
       logger.error(e.getMessage());
     }
