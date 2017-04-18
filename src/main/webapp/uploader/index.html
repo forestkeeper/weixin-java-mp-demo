@@ -91,7 +91,7 @@
             $uploaderFiles = $("#uploaderFiles")
             ;
         userName = $.ajax({url:"/weixin/user",async:false});
-        $("#userName")[0].value = userName;
+        $("#userName")[0].value = userName.responseText;
 
         $uploaderInput.on("change", function(e){
             var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
