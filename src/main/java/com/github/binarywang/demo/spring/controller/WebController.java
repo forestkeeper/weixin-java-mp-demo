@@ -30,26 +30,28 @@ public class WebController {
         try {
             WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(code);
             WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, "zh_CN");
-            session.setAttribute("userOpenId", code);
+            session.setAttribute("userOpenId", wxMpUser);
             logger.info("login successful" + wxMpUser.getNickname());
             return "redirect:/uploader";
         } catch (WxErrorException e) {
-            return "auth failed";
+            return "redirect:/error";
         }
+    }
+
+    @ResponseBody
+    @RequestMapping("/error")
+    @GetMapping(produces = "text/plain;charset=utf-8")
+    public String error(){
+       return "error !";
     }
 
     @ResponseBody
     @RequestMapping("/user")
     @GetMapping(produces = "text/plain;charset=utf-8")
     public String getUser(HttpSession session){
-        String code = (String) session.getAttribute("userOpenId");
-        WxMpOAuth2AccessToken wxMpOAuth2AccessToken = null;
-        try {
-            wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(code);
-            WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, "zh_CN");
+        WxMpUser wxMpUser = (WxMpUser) session.getAttribute("userOpenId");
+        if (wxMpUser != null)
             return wxMpUser.getNickname();
-        } catch (WxErrorException e) {
-            return "auth failed";
-        }
+        return "auth failed";
     }
 }
