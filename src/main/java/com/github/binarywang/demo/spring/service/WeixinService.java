@@ -91,7 +91,7 @@ public class WeixinService extends WxMpServiceImpl {
       wxMenu = WxMenu.fromJson(appContext.getResource("classpath:menu.json").getInputStream());
       for (WxMenuButton button : wxMenu.getButtons().get(0).getSubButtons()){
         if (button.getType().equals("view")
-                && button.getUrl().startsWith("/")){
+                && !button.getUrl().startsWith("http://")){
           button.setUrl(this.oauth2buildAuthorizationUrl(wxConfig.getUrlBase() + "/weixin/auth", "snsapi_userinfo",button.getUrl()));
         }
       }

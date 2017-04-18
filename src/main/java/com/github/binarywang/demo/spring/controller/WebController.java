@@ -32,7 +32,7 @@ public class WebController {
             WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, "zh_CN");
             session.setAttribute("userOpenId", wxMpUser);
             logger.info("login successful" + wxMpUser.getNickname());
-            return "redirect:" + state;
+            return "redirect:/" + state;
         } catch (WxErrorException e) {
             return "redirect:/error";
         }

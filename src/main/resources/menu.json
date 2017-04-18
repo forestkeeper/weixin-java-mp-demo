@@ -31,7 +31,7 @@
           {
             "type":"view",
             "name":"预约检车",
-            "url":"/uploader",
+            "url":"uploader",
             "sub_button":[
 
             ]
@@ -39,7 +39,7 @@
           {
             "type":"view",
             "name":"上门取车",
-            "url":"/uploader",
+            "url":"uploader",
             "sub_button":[
 
             ]
