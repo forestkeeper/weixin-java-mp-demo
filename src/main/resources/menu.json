@@ -47,19 +47,11 @@
         ]
       },
       {
-        "type":"view",
-        "name":"预约",
-        "url":"http://47.92.81.57/weixin/uploader",
-        "sub_button":[
-
-        ]
-      },
-      {
-        "name":"菜单",
+        "name":"便民查询",
         "sub_button":[
           {
             "type":"view",
-            "name":"搜索",
+            "name":"车险计算器",
             "url":"http://www.soso.com/",
             "sub_button":[
 
@@ -67,7 +59,36 @@
           },
           {
             "type":"view",
-            "name":"视频",
+            "name":"车保小贴士",
+            "url":"http://www.soso.com/",
+            "sub_button":[
+
+            ]
+          },
+          {
+            "type":"view",
+            "name":"个人中心",
+            "url":"http://www.soso.com/",
+            "sub_button":[
+
+            ]
+          }
+        ]
+      },
+      {
+        "name":"关于我们",
+        "sub_button":[
+          {
+            "type":"view",
+            "name":"公司概况",
+            "url":"http://www.soso.com/",
+            "sub_button":[
+
+            ]
+          },
+          {
+            "type":"view",
+            "name":"公司动态",
             "url":"http://v.qq.com/",
             "sub_button":[
 
