@@ -25,14 +25,14 @@ public class WebController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping("/auth")
-    public String testAuth(HttpSession session, @RequestParam(name = "code", required = true) String code,
+    public String auth(HttpSession session, @RequestParam(name = "code", required = true) String code,
                            @RequestParam(name = "state", required = true) String state){
         try {
             WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(code);
             WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, "zh_CN");
             session.setAttribute("userOpenId", wxMpUser);
             logger.info("login successful" + wxMpUser.getNickname());
-            return "redirect:/uploader";
+            return "redirect:" + state;
         } catch (WxErrorException e) {
             return "redirect:/error";
         }
