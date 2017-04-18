@@ -42,6 +42,12 @@
                     <input class="weui-input" type="date" value="">
                 </div>
             </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="" class="weui-label">用户名</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" placeholder="请输入" id ="userName">
+                </div>
+            </div>
             <div class="weui-cell weui-cell_vcode">
                 <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
                 <div class="weui-cell__bd">
@@ -84,6 +90,8 @@
             $uploaderInput = $("#uploaderInput"),
             $uploaderFiles = $("#uploaderFiles")
             ;
+        userName = $.ajax({url:"/weixin/user",async:false});
+        $("#userName")[0].value = 'nickname';
 
         $uploaderInput.on("change", function(e){
             var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;

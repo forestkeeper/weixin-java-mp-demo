@@ -38,18 +38,18 @@ public class WebController {
         }
     }
 
-//    @ResponseBody
-//    @RequestMapping("/user")
-//    @GetMapping(produces = "text/plain;charset=utf-8")
-//    public String getUser(HttpSession session){
-//        String code = (String) session.getAttribute("userOpenId");
-//        WxMpOAuth2AccessToken wxMpOAuth2AccessToken = null;
-//        try {
-//            wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(code);
-//            WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, "zh_CN");
-//            return wxMpUser.getNickname();
-//        } catch (WxErrorException e) {
-//            return "auth failed";
-//        }
-//    }
+    @ResponseBody
+    @RequestMapping("/user")
+    @GetMapping(produces = "text/plain;charset=utf-8")
+    public String getUser(HttpSession session){
+        String code = (String) session.getAttribute("userOpenId");
+        WxMpOAuth2AccessToken wxMpOAuth2AccessToken = null;
+        try {
+            wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(code);
+            WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, "zh_CN");
+            return wxMpUser.getNickname();
+        } catch (WxErrorException e) {
+            return "auth failed";
+        }
+    }
 }
