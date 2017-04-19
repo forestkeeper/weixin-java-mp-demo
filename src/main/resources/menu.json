@@ -7,7 +7,7 @@
           {
             "type":"view",
             "name":"一键导航",
-            "url":"http://ditu.baidu.com/",
+            "url":"http://map.baidu.com/mobile/webapp/index/index#place/linesearch/foo=bar/from=place&end=word%3D%25E6%259F%25AF%25E6%25A1%25A5%25E5%258C%25BA%25E8%25BD%25A6%25E8%25BE%2586%25E5%25AE%2589%25E5%2585%25A8%25E6%258A%2580%25E6%259C%25AF%25E6%25A3%2580%25E6%25B5%258B%25E7%25AB%2599%26point%3D13417888.42%252C3494342.79%26uid%3D6a137be616473fa92902e1ea&tab=line",
             "sub_button":[
 
             ]
