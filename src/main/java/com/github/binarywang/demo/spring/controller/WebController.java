@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpSession;
 
 
@@ -37,6 +39,21 @@ public class WebController {
             return "redirect:/error";
         }
     }
+
+    @PostMapping("/yuyue")
+    @RequestMapping("/yuyue")
+    public String yuyue(@RequestParam(name = "file1", required = true) MultipartFile file1,
+                      @RequestParam(name = "name", required = true) String name,
+                      @RequestParam(name = "chepai", required = true) String chepai,
+                      @RequestParam(name = "date", required = true) String date,
+                      @RequestParam(name = "driverLicense", required = true) String driverLicense,
+                      @RequestParam(name = "tel", required = true) String tel,
+                      @RequestParam(name = "file2", required = true) MultipartFile file2
+                      ) {
+        System.out.println(chepai);
+        return "success";
+    }
+
 
     @ResponseBody
     @RequestMapping("/error")

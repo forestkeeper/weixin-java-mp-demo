@@ -72,33 +72,13 @@
                 </div>
             </div>
             <div class="weui-cell">
-                <a href="javascript:submit()" class="weui-btn weui-btn_primary">预约</a>
+                <a class="weui-btn weui-btn_primary" id = "button">预约</a>
             </div>
         </div>
     </div>
 </div>
     <script type="text/javascript" class="uploader js_show">
-    function submit()
-    {
-        if ($("#uploaderFiles li").size() != 2){
-            alert("未上传图片");
-            return;
-        }
-        $uploaderFiles = $("#uploaderFiles  li")
-        $.post("/yuyue",
-        {
-            name:$("#userName").val(),
-            chepai:$("#chepai").val(),
-            driverLicense:$("#driverLicense").val(),
-            tel:$("#tel").val(),
-            date:$("#date").val(),
-            file1:$uploaderFiles[0].attr(),
-            file2:$uploaderFiles[0].attr()
-        },
-        function(data,status){
-            alert("Data: " + data + "\nStatus: " + status);
-        });
-    }
+
     $(function(){
         var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
             $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
@@ -107,12 +87,42 @@
             ;
         userName = $.ajax({url:"/weixin/user",async:false});
         $("#userName")[0].value = userName.responseText;
+        var arrayObj = new Array();
+
+        $("#button").on("click",function(){
+            if ($("#uploaderFiles li").size() != 2){
+                alert("未上传图片");
+                return;
+            }
+            var data = new FormData();
+            data.append('file1', arrayObj[0]);
+            data.append('file2', arrayObj[1]);
+            data.append('name', $("#userName").val());
+            data.append('chepai', $("#userName").val());
+            data.append('driverLicense', $("#userName").val());
+            data.append('tel', $("#userName").val());
+            data.append('date', $("#userName").val());
+
+            $.ajax({
+                    type: 'POST',
+                    url :  "/weixin/yuyue",
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                success: function(data) {
+                alert("boa!");
+                },
+                error: function() {
+                    alert("not so boa!");
+                }
+            });
+        });
 
         $uploaderInput.on("change", function(e){
             var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
             for (var i = 0, len = files.length; i < len; ++i) {
                 var file = files[i];
-
+                arrayObj.push(file);
                 if (url) {
                     src = url.createObjectURL(file);
                 } else {
