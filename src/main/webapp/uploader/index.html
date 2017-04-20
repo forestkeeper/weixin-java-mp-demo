@@ -31,13 +31,13 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label for="" class="weui-label">车牌号</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="text" placeholder="请输入">
+                    <input class="weui-input" type="text" placeholder="请输入" id = "chepai">
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label for="" class="weui-label">驾驶证号</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="text" placeholder="请输入">
+                    <input class="weui-input" type="text" placeholder="请输入" id = "driverLicense">
                 </div>
             </div>
             <div class="weui-cell">
@@ -45,13 +45,13 @@
                     <label class="weui-label">手机号</label>
                 </div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="tel" placeholder="请输入手机号">
+                    <input class="weui-input" type="tel" placeholder="请输入手机号" id = "tel">
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label for="" class="weui-label">预约日期</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="date" value="">
+                    <input class="weui-input" type="date" value="" id = "date">
                 </div>
             </div>
             <div class="weui-cell">
@@ -59,25 +59,46 @@
                     <div class="weui-uploader">
                         <div class="weui-uploader__hd">
                             <p class="weui-uploader__title">图片上传，行驶证 + 驾驶证 </p>
-                            <div class="weui-uploader__info">0/2</div>
+                            <div class="weui-uploader__info" id = "uploadNumber">0/2</div>
                         </div>
                         <div class="weui-uploader__bd">
                             <ul class="weui-uploader__files" id="uploaderFiles">
                             </ul>
-                            <div class="weui-uploader__input-box">
-                                <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                            <div class="weui-uploader__input-box" id = "uploaderInputBox">
+                                <input id="uploaderInput" class="weui-uploader__input" name="photo" type="file" accept="image/*" multiple="">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="weui-cell">
-                <a href="javascript:" class="weui-btn weui-btn_primary">递交个人资料</a>
+                <a href="javascript:submit()" class="weui-btn weui-btn_primary">预约</a>
             </div>
         </div>
     </div>
 </div>
     <script type="text/javascript" class="uploader js_show">
+    function submit()
+    {
+        if ($("#uploaderFiles li").size() != 2){
+            alert("未上传图片");
+            return;
+        }
+        $uploaderFiles = $("#uploaderFiles  li")
+        $.post("/yuyue",
+        {
+            name:$("#userName").val(),
+            chepai:$("#chepai").val(),
+            driverLicense:$("#driverLicense").val(),
+            tel:$("#tel").val(),
+            date:$("#date").val(),
+            file1:$uploaderFiles[0].attr(),
+            file2:$uploaderFiles[0].attr()
+        },
+        function(data,status){
+            alert("Data: " + data + "\nStatus: " + status);
+        });
+    }
     $(function(){
         var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
             $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
@@ -97,8 +118,11 @@
                 } else {
                     src = e.target.result;
                 }
-
                 $uploaderFiles.append($(tmpl.replace('#url#', src)));
+            }
+            $("#uploadNumber").text( $("#uploaderFiles li").size() + "/2");
+            if ($("#uploaderFiles li").size() == 2){
+                $("#uploaderInputBox").hide();
             }
         });
         $uploaderFiles.on("click", "li", function(){
