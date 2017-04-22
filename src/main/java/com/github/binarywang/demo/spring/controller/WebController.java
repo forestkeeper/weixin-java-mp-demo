@@ -1,5 +1,7 @@
 package com.github.binarywang.demo.spring.controller;
 
+import com.github.binarywang.demo.spring.dao.AppointmentDao;
+import com.github.binarywang.demo.spring.domain.Appointment;
 import com.github.binarywang.demo.spring.service.WeixinService;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.sql.Date;
 
 
 /**
@@ -23,6 +26,9 @@ public class WebController {
 
     @Autowired
     private WeixinService wxService;
+
+    @Autowired
+    private AppointmentDao appointmentDao;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -40,8 +46,8 @@ public class WebController {
         }
     }
 
-    @PostMapping("/yuyue")
     @RequestMapping("/yuyue")
+    @ResponseBody
     public String yuyue(@RequestParam(name = "file1", required = true) MultipartFile file1,
                       @RequestParam(name = "name", required = true) String name,
                       @RequestParam(name = "chepai", required = true) String chepai,
@@ -50,7 +56,13 @@ public class WebController {
                       @RequestParam(name = "tel", required = true) String tel,
                       @RequestParam(name = "file2", required = true) MultipartFile file2
                       ) {
-        System.out.println(chepai);
+        Appointment appointment = new Appointment();
+        appointment.setName(name);
+        appointment.setChepai(chepai);
+        appointment.setDate(Date.valueOf(date));
+        appointment.setDriverLicense(driverLicense);
+        appointment.setTel(tel);
+        appointmentDao.save(appointment);
         return "success";
     }
 
