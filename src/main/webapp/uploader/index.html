@@ -107,6 +107,8 @@
                     type: 'POST',
                     url :  "/weixin/yuyue",
                     data: data,
+                    contentType: false,
+                    processData: false,
                 success: function(data) {
                 alert("boa!");
                 },
