@@ -23,7 +23,7 @@
         <div class="weui-cells__title">预约检车</div>
         <div class="weui-cells weui-cells_form">
             <div class="weui-cell">
-                <div class="weui-cell__hd"><label for="" class="weui-label">用户名</label></div>
+                <div class="weui-cell__hd"><label for="" class="weui-label">真名</label></div>
                 <div class="weui-cell__bd">
                     <input class="weui-input" type="text" placeholder="请输入" id ="userName">
                 </div>
@@ -85,8 +85,6 @@
             $uploaderInput = $("#uploaderInput"),
             $uploaderFiles = $("#uploaderFiles")
             ;
-        userName = $.ajax({url:"/weixin/user",async:false});
-        $("#userName")[0].value = userName.responseText;
         var arrayObj = new Array();
 
         $("#button").on("click",function(){
@@ -110,7 +108,8 @@
                     contentType: false,
                     processData: false,
                 success: function(data) {
-                alert("预约成功!");
+                    alert("预约成功!");
+                    window.close();
                 },
                 error: function() {
                     alert("预约失败");
