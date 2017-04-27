@@ -12,6 +12,7 @@
   <import resource="classpath*:spring-service-bean.xml" />
 
   <util:properties id="wxProperties" location="classpath:/wx.properties" />
+  <!--<util:properties id="ossProperties" location="classpath:/oss.properties"/>-->
 
   <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
     <property name="dataSource" ref="dataSource"></property>

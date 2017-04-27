@@ -9,11 +9,29 @@ import java.util.Date;
  *
  */
 public class Appointment {
+    private String openId;
+    private String realName;
     private String name;
     private String chepai;
     private Date date;
     private String driverLicense;
     private String tel;
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
 
     public Date getDate() {
         return date;

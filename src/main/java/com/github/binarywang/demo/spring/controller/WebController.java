@@ -48,16 +48,19 @@ public class WebController {
 
     @RequestMapping("/yuyue")
     @ResponseBody
-    public String yuyue(@RequestParam(name = "file1", required = true) MultipartFile file1,
+    public String yuyue(HttpSession session, @RequestParam(name = "file1") MultipartFile file1,
                       @RequestParam(name = "name", required = true) String name,
                       @RequestParam(name = "chepai", required = true) String chepai,
                       @RequestParam(name = "date", required = true) String date,
                       @RequestParam(name = "driverLicense", required = true) String driverLicense,
                       @RequestParam(name = "tel", required = true) String tel,
-                      @RequestParam(name = "file2", required = true) MultipartFile file2
+                      @RequestParam(name = "file2") MultipartFile file2
                       ) {
         Appointment appointment = new Appointment();
-        appointment.setName(name);
+        WxMpUser wxMpUser = (WxMpUser) session.getAttribute("userOpenId");
+        appointment.setName(wxMpUser.getNickname());
+        appointment.setOpenId(wxMpUser.getOpenId());
+        appointment.setRealName(name);
         appointment.setChepai(chepai);
         appointment.setDate(Date.valueOf(date));
         appointment.setDriverLicense(driverLicense);
