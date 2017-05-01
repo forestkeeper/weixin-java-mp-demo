@@ -28,7 +28,9 @@ public class AppointmentDao {
     }
 
     public void save(Appointment appointment){
-        jdbcTemplate.update("insert into appointment (real_name, open_id, name,chepai,date,driver_license, tel, book_time) values (?,?,?,?,?,?,?,now())",
+        jdbcTemplate.update("insert into appointment " +
+                        "(real_name, open_id, name,chepai,date,driver_license, tel, book_time) " +
+                        "values (?,?,?,?,?,?,?,now())",
                 appointment.getRealName(), appointment.getOpenId(), appointment.getName(), appointment.getChepai(), appointment.getDate(), appointment.getDriverLicense(),
                 appointment.getTel());
     }
