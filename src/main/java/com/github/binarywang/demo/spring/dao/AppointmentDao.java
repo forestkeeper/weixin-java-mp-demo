@@ -29,6 +29,7 @@ public class AppointmentDao {
             @Override
             public Appointment mapRow(ResultSet resultSet, int i) throws SQLException {
                 Appointment appointment = new Appointment();
+                appointment.setId(resultSet.getLong("id"));
                 appointment.setOpenId(resultSet.getString("open_id"));
                 appointment.setRealName(resultSet.getString("real_name"));
                 appointment.setName(resultSet.getString("name"));
@@ -36,6 +37,7 @@ public class AppointmentDao {
                 appointment.setDriverLicense(resultSet.getString("driver_license"));
                 appointment.setDate(resultSet.getDate("date"));
                 appointment.setChepai(resultSet.getString("chepai"));
+
                 return appointment;
             }
         });

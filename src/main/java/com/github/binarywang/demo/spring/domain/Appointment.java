@@ -9,6 +9,7 @@ import java.util.Date;
  *
  */
 public class Appointment {
+    private long id;
     private String openId;
     private String realName;
     private String name;
@@ -16,6 +17,14 @@ public class Appointment {
     private Date date;
     private String driverLicense;
     private String tel;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getOpenId() {
         return openId;
