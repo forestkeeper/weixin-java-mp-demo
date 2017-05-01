@@ -91,7 +91,7 @@
         var tbody = $('#myTable').children('tbody');
         var table = tbody.length ? tbody : $('#myTable');
         table.empty();
-        $.getJSON("appointments?limit=10&offset=" + (page-1)*10, function(map){
+        $.getJSON("appointments?limit=20&offset=" + (page-1)*10, function(map){
             var json = map['appoints'];
             var i;
             for (i = 0; i<json.length; ++i){
@@ -106,7 +106,7 @@
             }
             var myPage = $("#myPage");
             myPage.empty();
-            var pageSize = map['count']/10;
+            var pageSize = map['count']/20;
             for (i = 1; i<=pageSize; ++i){
                 myPage.append('<li><a onclick="choosePage(' + i + ');" >' + i + '</a></li>');
             }
