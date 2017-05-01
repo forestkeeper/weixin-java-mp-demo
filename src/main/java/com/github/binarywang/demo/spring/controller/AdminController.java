@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wen on 2017/4/30.
@@ -42,7 +44,25 @@ public class AdminController {
 
     @RequestMapping("/appointments")
     @ResponseBody
-    public List<Appointment> listAppointments(@RequestParam(required = true) int offset, @RequestParam(required = true) int limit){
-        return appointmentDao.list(offset,limit);
+    public Map<String,Object> listAppointments(@RequestParam(required = true) int offset, @RequestParam(required = true) int limit){
+        List<Appointment> list = appointmentDao.list(offset,limit);
+        Map<String, Object> map = new HashMap<String,Object>();
+        map.put("appoints", list);
+        map.put("count", appointmentDao.count());
+        return map;
+    }
+
+    @RequestMapping("/passAppointment")
+    @ResponseBody
+    public String passAppointment(@RequestParam(required = true) long id){
+        appointmentDao.updateStatus(id, 2);
+        return "success";
+    }
+
+    @RequestMapping("/notPassAppointment")
+    @ResponseBody
+    public String notPassAppointment(@RequestParam(required = true) long id){
+        appointmentDao.updateStatus(id, 3);
+        return "success";
     }
 }

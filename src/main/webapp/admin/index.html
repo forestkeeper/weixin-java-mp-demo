@@ -35,7 +35,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">后台管理系统</a>
+            <a class="navbar-brand" href="/weixin/admin/">后台管理系统</a>
         </div>
     </div>
 </nav>
@@ -67,6 +67,11 @@
                     </tbody>
                 </table>
             </div>
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination" id = "myPage">
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -79,9 +84,15 @@
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     $(function(){
+        onLoad(1);
+    });
+
+    function onLoad(page){
         var tbody = $('#myTable').children('tbody');
         var table = tbody.length ? tbody : $('#myTable');
-        $.getJSON("appointments?limit=10&offset=0", function(json){
+        table.empty();
+        $.getJSON("appointments?limit=10&offset=" + (page-1)*10, function(map){
+            var json = map['appoints'];
             var i;
             for (i = 0; i<json.length; ++i){
                 table.append('<tr><td>'+ json[i].id +'</td>'
@@ -89,11 +100,34 @@
                                 + '<td>' + json[i].real_name + '</td>'
                                 + '<td>' + json[i].chepai + '</td>'
                                 + '<td>' + json[i].date + '</td>'
-                                + '<td><a href="#">预约通过</a></td></tr>'
+                                + '<td><a onclick="passAppointment(' + json[i].id + ');">预约通过</a>'
+                                + '    <a onclick="notPassAppointment(' + + json[i].id + ');">不通过</a></td></tr>'
                                 );
             }
+            var myPage = $("#myPage");
+            myPage.empty();
+            var pageSize = map['count']/10;
+            for (i = 1; i<=pageSize; ++i){
+                myPage.append('<li><a onclick="choosePage(' + i + ');" >' + i + '</a></li>');
+            }
         });
-    });
+    }
+
+    function choosePage(page){
+        onLoad(page);
+    }
+
+    function passAppointment(id){
+        $.getJSON("passAppointment?id=" + id,function(data){
+            onLoad(1);
+        });
+    }
+
+    function notPassAppointment(id){
+        $.getJSON("notPassAppointment?id=" + id,function(data){
+            onLoad(1);
+        });
+    }
 </script></div>
 </body>
 </html>

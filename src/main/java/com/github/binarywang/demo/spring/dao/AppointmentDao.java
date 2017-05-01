@@ -18,6 +18,15 @@ public class AppointmentDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    public long count(){
+        return jdbcTemplate.queryForObject("select count(id) from appointment", new RowMapper<Long>() {
+            @Override
+            public Long mapRow(ResultSet resultSet, int i) throws SQLException {
+                return resultSet.getLong(1);
+            }
+        });
+    }
+
     public void save(Appointment appointment){
         jdbcTemplate.update("insert into appointment (real_name, open_id, name,chepai,date,driver_license, tel, book_time) values (?,?,?,?,?,?,?,now())",
                 appointment.getRealName(), appointment.getOpenId(), appointment.getName(), appointment.getChepai(), appointment.getDate(), appointment.getDriverLicense(),
@@ -25,7 +34,7 @@ public class AppointmentDao {
     }
 
     public List<Appointment> list(int offset, int limit){
-        return jdbcTemplate.query("select * from appointment limit ?,?", new Object[]{offset , limit}, new RowMapper<Appointment>() {
+        return jdbcTemplate.query("select * from appointment where status = 1 limit ?,?", new Object[]{offset , limit}, new RowMapper<Appointment>() {
             @Override
             public Appointment mapRow(ResultSet resultSet, int i) throws SQLException {
                 Appointment appointment = new Appointment();
@@ -41,5 +50,9 @@ public class AppointmentDao {
                 return appointment;
             }
         });
+    }
+
+    public void updateStatus(long id, int status){
+        jdbcTemplate.update("update appointment set status = ? where id = ?", status, id);
     }
 }
