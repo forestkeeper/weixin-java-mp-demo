@@ -33,6 +33,24 @@ public class AppointmentDao {
                 appointment.getTel());
     }
 
+    public Appointment find(long id){
+        String sql = "select * from appointment where id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{}, new RowMapper<Appointment>() {
+            @Override
+            public Appointment mapRow(ResultSet resultSet, int i) throws SQLException {
+                Appointment appointment = new Appointment();
+                appointment.setId(resultSet.getLong("id"));
+                appointment.setOpenId(resultSet.getString("open_id"));
+                appointment.setRealName(resultSet.getString("real_name"));
+                appointment.setName(resultSet.getString("name"));
+                appointment.setTel(resultSet.getString("tel"));
+                appointment.setDriverLicense(resultSet.getString("driver_license"));
+                appointment.setDate(resultSet.getDate("date"));
+                appointment.setChepai(resultSet.getString("chepai"));
+                return appointment;            }
+        });
+    }
+
     public List<Appointment> list(int offset, int limit){
         return jdbcTemplate.query("select * from appointment where status = 1 limit ?,?", new Object[]{offset , limit}, new RowMapper<Appointment>() {
             @Override

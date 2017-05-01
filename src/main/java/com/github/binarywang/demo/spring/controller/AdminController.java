@@ -3,6 +3,8 @@ package com.github.binarywang.demo.spring.controller;
 import com.github.binarywang.demo.spring.dao.AppointmentDao;
 import com.github.binarywang.demo.spring.domain.Appointment;
 import com.github.binarywang.demo.spring.service.WeixinService;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +56,11 @@ public class AdminController {
 
     @RequestMapping("/passAppointment")
     @ResponseBody
-    public String passAppointment(@RequestParam(required = true) long id){
+    public String passAppointment(@RequestParam(required = true) long id) throws WxErrorException {
+        WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
+        wxMpTemplateMessage.setToUser(appointmentDao.find(id).getOpenId());
+        wxMpTemplateMessage.setTemplateId("gngDECBVRqQun6OoWFD--ihshqWQBL9zryfctsQIoLs");
+        wxService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage);
         appointmentDao.updateStatus(id, 2);
         return "success";
     }
