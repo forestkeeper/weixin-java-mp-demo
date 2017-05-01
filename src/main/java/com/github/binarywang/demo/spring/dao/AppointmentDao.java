@@ -35,7 +35,7 @@ public class AppointmentDao {
 
     public Appointment find(long id){
         String sql = "select * from appointment where id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{}, new RowMapper<Appointment>() {
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<Appointment>() {
             @Override
             public Appointment mapRow(ResultSet resultSet, int i) throws SQLException {
                 Appointment appointment = new Appointment();
