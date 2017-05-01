@@ -67,7 +67,11 @@ public class AdminController {
 
     @RequestMapping("/notPassAppointment")
     @ResponseBody
-    public String notPassAppointment(@RequestParam(required = true) long id){
+    public String notPassAppointment(@RequestParam(required = true) long id) throws WxErrorException {
+        WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
+        wxMpTemplateMessage.setToUser(appointmentDao.find(id).getOpenId());
+        wxMpTemplateMessage.setTemplateId("45y2dsypCtmcw9hkkfi1IcfnVrg918YaPZHvltYEMis");
+        wxService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage);
         appointmentDao.updateStatus(id, 3);
         return "success";
     }
