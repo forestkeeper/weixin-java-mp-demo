@@ -1,5 +1,6 @@
 package com.github.binarywang.demo.spring.controller;
 
+import com.github.binarywang.demo.spring.dao.AdminDao;
 import com.github.binarywang.demo.spring.dao.AppointmentDao;
 import com.github.binarywang.demo.spring.domain.Appointment;
 import com.github.binarywang.demo.spring.service.WeixinService;
@@ -31,17 +32,25 @@ public class AdminController {
     @Autowired
     private AppointmentDao appointmentDao;
 
+    @Autowired
+    private AdminDao adminDao;
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping("/login")
-    public void login(HttpSession session, @RequestParam String userName , @RequestParam String passWord){
-
+    @RequestMapping("/doLogin")
+    public String login(HttpSession session, @RequestParam String userName , @RequestParam String passWord){
+        if (adminDao.validate(userName,passWord)) {
+            session.setAttribute("admin_user", userName);
+            return "redirect:/admin";
+        }else{
+            return "redirect:/admin/login.html";
+        }
     }
 
-    @RequestMapping("/islogin")
+    @RequestMapping("/isLogin")
     @ResponseBody
     public String isLogin(HttpSession session){
-        return "success";
+        return session.getAttribute("admin_user")!=null?"true":"false";
     }
 
     @RequestMapping("/appointments")
