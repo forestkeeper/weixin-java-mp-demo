@@ -84,8 +84,19 @@
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     $(function(){
+        isLogin();
         onLoad(1);
     });
+
+    function isLogin(){
+        $.getJSON("isLogin", function(data){
+            if (data == "true")
+                return true;
+            else {
+                window.location.href='login.html';
+            }
+        })
+    }
 
     function onLoad(page){
         var tbody = $('#myTable').children('tbody');
