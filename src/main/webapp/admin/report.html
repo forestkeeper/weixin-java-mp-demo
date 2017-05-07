@@ -62,7 +62,17 @@
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     $(function(){
+        isLogin();
     });
+    function isLogin(){
+        $.getJSON("isLogin", function(data){
+            if (data == "true")
+                return true;
+            else {
+                window.location.href='login.html';
+            }
+        })
+    }
 </script></div>
 </body>
 </html>

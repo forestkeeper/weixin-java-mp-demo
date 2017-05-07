@@ -129,14 +129,24 @@
     }
 
     function passAppointment(id){
-        $.getJSON("passAppointment?id=" + id,function(data){
-            onLoad(1);
-        });
+        $.getJSON("passAppointment?id=" + id,function(map){
+            var success = map['success'];
+            if (success){
+                onLoad(1);
+            }else{
+                alert("操作失败，原因为：" + map['reason']);
+            }
+        })
     }
 
     function notPassAppointment(id){
-        $.getJSON("notPassAppointment?id=" + id,function(data){
-            onLoad(1);
+        $.getJSON("notPassAppointment?id=" + id,function(map){
+            var success = map['success'];
+            if (success){
+                onLoad(1);
+            }else{
+                alert("操作失败，原因为：" + map['reason']);
+            }
         });
     }
 </script></div>

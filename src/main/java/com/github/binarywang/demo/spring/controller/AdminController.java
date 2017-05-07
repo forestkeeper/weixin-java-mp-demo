@@ -65,23 +65,43 @@ public class AdminController {
 
     @RequestMapping("/passAppointment")
     @ResponseBody
-    public String passAppointment(@RequestParam(required = true) long id) throws WxErrorException {
-        WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
-        wxMpTemplateMessage.setToUser(appointmentDao.find(id).getOpenId());
-        wxMpTemplateMessage.setTemplateId("gngDECBVRqQun6OoWFD--ihshqWQBL9zryfctsQIoLs");
-        wxService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage);
-        appointmentDao.updateStatus(id, 2);
-        return "success";
+    public Map<String, Object> passAppointment(@RequestParam(required = true) long id)  {
+        Map<String, Object> ret = new HashMap<String,Object>();
+        try {
+            WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
+            wxMpTemplateMessage.setToUser(appointmentDao.find(id).getOpenId());
+            wxMpTemplateMessage.setTemplateId("gngDECBVRqQun6OoWFD--ihshqWQBL9zryfctsQIoLs");
+            wxService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage);
+            appointmentDao.updateStatus(id, 2);
+            ret.put("success" , true);
+        } catch (WxErrorException e) {
+            ret.put("success", false);
+            ret.put("reason", e.getError().getErrorMsg());
+        } catch (Exception e1){
+            ret.put("success", false);
+            ret.put("reason", e1.getMessage());
+        }
+        return ret;
     }
 
     @RequestMapping("/notPassAppointment")
     @ResponseBody
-    public String notPassAppointment(@RequestParam(required = true) long id) throws WxErrorException {
-        WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
-        wxMpTemplateMessage.setToUser(appointmentDao.find(id).getOpenId());
-        wxMpTemplateMessage.setTemplateId("45y2dsypCtmcw9hkkfi1IcfnVrg918YaPZHvltYEMis");
-        wxService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage);
-        appointmentDao.updateStatus(id, 3);
-        return "success";
+    public Map<String, Object> notPassAppointment(@RequestParam(required = true) long id) throws WxErrorException {
+        Map<String, Object> ret = new HashMap<String,Object>();
+        try {
+            WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
+            wxMpTemplateMessage.setToUser(appointmentDao.find(id).getOpenId());
+            wxMpTemplateMessage.setTemplateId("45y2dsypCtmcw9hkkfi1IcfnVrg918YaPZHvltYEMis");
+            wxService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage);
+            appointmentDao.updateStatus(id, 3);
+            ret.put("success" , true);
+        } catch (WxErrorException e) {
+            ret.put("success", false);
+            ret.put("reason", e.getError().getErrorMsg());
+        } catch (Exception e1){
+            ret.put("success", false);
+            ret.put("reason", e1.getMessage());
+        }
+        return ret;
     }
 }
