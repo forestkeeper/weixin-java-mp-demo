@@ -62,7 +62,7 @@ public class AppointmentDao {
     }
 
     public List<Appointment> findByOpenId(String openId){
-        return jdbcTemplate.query("select * from Appointment where open_id = ?", new Object[]{openId}, new AppointmentRowMapper()
+        return jdbcTemplate.query("select * from Appointment where open_id = ? and status = 1", new Object[]{openId}, new AppointmentRowMapper()
         );
     }
 
