@@ -51,13 +51,13 @@ public class WebController {
 
     @RequestMapping("/yuyue")
     @ResponseBody
-    public Map<String, Object> yuyue(HttpSession session, @RequestParam(name = "file1") MultipartFile file1,
+    public Map<String, Object> yuyue(HttpSession session, @RequestParam(name = "file1" ,required = false) MultipartFile file1,
                                      @RequestParam(name = "name", required = true) String name,
                                      @RequestParam(name = "chepai", required = true) String chepai,
                                      @RequestParam(name = "date", required = true) String date,
                                      @RequestParam(name = "driverLicense", required = true) String driverLicense,
                                      @RequestParam(name = "tel", required = true) String tel,
-                                     @RequestParam(name = "file2") MultipartFile file2
+                                     @RequestParam(name = "file2", required = false) MultipartFile file2
                       ) {
         Map<String, Object> ret = new HashMap<String, Object>();
         Date date1 = Date.valueOf(date);
