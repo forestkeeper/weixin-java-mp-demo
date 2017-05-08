@@ -7,7 +7,7 @@
           {
             "type":"view",
             "name":"一键导航",
-            "url":"",
+            "url":"http://map.baidu.com/mobile/webapp/index/index/qt=inf&uid=X2sWe/vt=map#place/detail/qt=ninf&wd=%E6%9F%AF%E6%A1%A5%E5%8C%BA%E8%BD%A6%E8%BE%86%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E6%A3%80%E6%B5%8B%E7%AB%99&c=179&searchFlag=bigBox&version=5&exptype=dep&src_from=webapp_all_bigbox&src=2&uid=6a137be616473fa92902e1ea&industry=life&qid=3055856729006393233/showall=1&pos=0&da_ref=listclk&da_qrtp=11&da_log=sampid%3A3_eno%3A206_adnum%3A0_sid%3A4257622041749495_from%3Awebappmap_exptype%3Aurl_query%3A%E6%9F%AF%E6%A1%A5%E5%8C%BA%E8%BD%A6%E8%BE%86%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E6%A3%80%E6%B5%8B%E7%AB%99_adids%3A_killnum%3A0_userids%3A&da_adquery=%E6%9F%AF%E6%A1%A5%E5%8C%BA%E8%BD%A6%E8%BE%86%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E6%A3%80%E6%B5%8B%E7%AB%99&da_adtitle=%E6%9F%AF%E6%A1%A5%E5%8C%BA%E8%BD%A6%E8%BE%86%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E6%A3%80%E6%B5%8B%E7%AB%99&da_adindus=%E6%B1%BD%E8%BD%A6%E6%9C%8D%E5%8A%A1%3B%E6%B1%BD%E8%BD%A6%E6%A3%80%E6%B5%8B%E5%9C%BA&detail_from=list%26pos%3D0%26ad_page_logs%3D%26semStatType%3Dlist&vt=map",
             "sub_button":[
 
             ]
@@ -51,24 +51,16 @@
         "sub_button":[
           {
             "type":"view",
-            "name":"车险计算器",
-            "url":"http://www.soso.com/",
+            "name":"年检计算器",
+            "url":"http://gab.122.gov.cn/views/inquiryjyqz.html",
             "sub_button":[
 
             ]
           },
           {
             "type":"view",
-            "name":"车保小贴士",
-            "url":"http://www.soso.com/",
-            "sub_button":[
-
-            ]
-          },
-          {
-            "type":"view",
-            "name":"个人中心",
-            "url":"http://www.soso.com/",
+            "name":"违章查询",
+            "url":"http://m.weizhang8.cn/",
             "sub_button":[
 
             ]
