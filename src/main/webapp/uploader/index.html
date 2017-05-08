@@ -93,14 +93,14 @@
                 return;
             }
             var data = new FormData();
-            data.append('file1', arrayObj[0]);
-            data.append('file2', arrayObj[1]);
+            //data.append('file1', arrayObj[0]);
+            //data.append('file2', arrayObj[1]);
             data.append('name', $("#userName").val());
             data.append('chepai', $("#chepai").val());
             data.append('driverLicense', $("#driverLicense").val());
             data.append('tel', $("#tel").val());
             data.append('date', $("#date").val());
-
+            $("#button").hide();
             $.ajax({
                     type: 'POST',
                     url :  "/weixin/yuyue",
@@ -108,11 +108,17 @@
                     contentType: false,
                     processData: false,
                 success: function(data) {
-                    alert("预约成功!");
-                    window.location.href='../success';
+                    if (data['success'] == true){
+                        alert("预约成功!");
+                        window.location.href='../success';
+                    }else{
+                        alert(data['reason']);
+                        $("#button").show();
+                    }
                 },
                 error: function() {
                     alert("预约失败");
+                    $("#button").show();
                 }
             });
         });

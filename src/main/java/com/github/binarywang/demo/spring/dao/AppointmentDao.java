@@ -54,25 +54,42 @@ public class AppointmentDao {
     }
 
     public List<Appointment> list(int offset, int limit){
-        return jdbcTemplate.query("select * from appointment where status = 1 limit ?,?", new Object[]{offset , limit}, new RowMapper<Appointment>() {
-            @Override
-            public Appointment mapRow(ResultSet resultSet, int i) throws SQLException {
-                Appointment appointment = new Appointment();
-                appointment.setId(resultSet.getLong("id"));
-                appointment.setOpenId(resultSet.getString("open_id"));
-                appointment.setRealName(resultSet.getString("real_name"));
-                appointment.setName(resultSet.getString("name"));
-                appointment.setTel(resultSet.getString("tel"));
-                appointment.setDriverLicense(resultSet.getString("driver_license"));
-                appointment.setDate(resultSet.getDate("date"));
-                appointment.setChepai(resultSet.getString("chepai"));
-
-                return appointment;
-            }
-        });
+        return jdbcTemplate.query("select * from appointment where status = 1 limit ?,?", new Object[]{offset , limit}, new AppointmentRowMapper());
     }
 
     public void updateStatus(long id, int status){
         jdbcTemplate.update("update appointment set status = ? where id = ?", status, id);
+    }
+
+    public List<Appointment> findByOpenId(String openId){
+        return jdbcTemplate.query("select * from Appointment where open_id = ?", new Object[]{openId}, new AppointmentRowMapper()
+        );
+    }
+
+    public Long countForDay(String date){
+        return jdbcTemplate.queryForObject("select count(id) from appointment where date = ?", new Object[]{date}, new RowMapper<Long>() {
+            @Override
+            public Long mapRow(ResultSet resultSet, int i) throws SQLException {
+                return resultSet.getLong(1);
+            }
+        });
+    }
+
+    public class AppointmentRowMapper implements RowMapper<Appointment> {
+
+        @Override
+        public Appointment mapRow(ResultSet resultSet, int i) throws SQLException {
+            Appointment appointment = new Appointment();
+            appointment.setId(resultSet.getLong("id"));
+            appointment.setOpenId(resultSet.getString("open_id"));
+            appointment.setRealName(resultSet.getString("real_name"));
+            appointment.setName(resultSet.getString("name"));
+            appointment.setTel(resultSet.getString("tel"));
+            appointment.setDriverLicense(resultSet.getString("driver_license"));
+            appointment.setDate(resultSet.getDate("date"));
+            appointment.setChepai(resultSet.getString("chepai"));
+
+            return appointment;
+        }
     }
 }
