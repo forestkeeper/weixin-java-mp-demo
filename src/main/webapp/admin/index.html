@@ -89,6 +89,8 @@
         isLogin();
         $.getJSON("appointments?limit=10&offset=0" , function(map){
             var pageSize = map['count']/10;
+            if (pageSize < 1)
+                pageSize = 1;
             $('#myPage').twbsPagination({
                 totalPages: pageSize,
                 visiblePages: 10,
