@@ -73,7 +73,7 @@ public class WebController {
             ret.put("reason", "无法递交，请通过微信访问");
             return ret;
         }
-        if (appointmentDao.findByOpenId(wxMpUser.getOpenId()).size()>0){
+        if (appointmentDao.findInOrderingAppointmentByOpenId(wxMpUser.getOpenId()).size()>0){
             ret.put("success", false);
             ret.put("reason", "预约正在进行中");
             return ret;

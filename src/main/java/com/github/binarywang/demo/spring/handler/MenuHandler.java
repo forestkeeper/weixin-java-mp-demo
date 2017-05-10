@@ -41,10 +41,16 @@ public class MenuHandler extends AbstractHandler {
     String key = wxMessage.getEventKey();
     WxMenuKey menuKey = null;
     if (key.equals("order_status")){
-      List<Appointment> list = appointmentDao.findByOpenId(wxMessage.getFromUser());
+      List<Appointment> list = appointmentDao.findInOrderingAppointmentByOpenId(wxMessage.getFromUser());
       if (list.size() == 0){
-        return WxMpXmlOutMessage.TEXT().content("目前没有在进行中的预约").fromUser(wxMessage.getToUser())
-                .toUser(wxMessage.getFromUser()).build();
+          list = appointmentDao.findPassedAppointmentByOpenId(wxMessage.getFromUser());
+          if (list.size() > 0){
+              return WxMpXmlOutMessage.TEXT().content("请在日期：" + list.get(0).getDate() + " 到监测站检测，车牌为" +
+              list.get(0).getChepai()).fromUser(wxMessage.getToUser()).toUser(wxMessage.getFromUser()).build();
+          }else {
+              return WxMpXmlOutMessage.TEXT().content("目前没有在进行中的预约").fromUser(wxMessage.getToUser())
+                      .toUser(wxMessage.getFromUser()).build();
+          }
       }else {
         return  WxMpXmlOutMessage.TEXT().content("日期为" + list.get(0).getDate() + "的预约正在审核中，请等候").fromUser(wxMessage.getToUser())
                 .toUser(wxMessage.getFromUser()).build();

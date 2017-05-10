@@ -61,9 +61,18 @@ public class AppointmentDao {
         jdbcTemplate.update("update appointment set status = ? where id = ?", status, id);
     }
 
-    public List<Appointment> findByOpenId(String openId){
+    /**
+     *
+     * @param openId
+     * @return
+     */
+    public List<Appointment> findInOrderingAppointmentByOpenId(String openId){
         return jdbcTemplate.query("select * from appointment where open_id = ? and status = 1", new Object[]{openId}, new AppointmentRowMapper()
         );
+    }
+
+    public List<Appointment> findPassedAppointmentByOpenId(String openId){
+        return jdbcTemplate.query("select * from appointment where open_id = ? and status = 2", new Object[]{openId}, new AppointmentRowMapper());
     }
 
     public Long countForDay(String date){
