@@ -1,7 +1,11 @@
 package com.github.binarywang.demo.spring.handler;
 
+import java.util.List;
 import java.util.Map;
 
+import com.github.binarywang.demo.spring.dao.AppointmentDao;
+import com.github.binarywang.demo.spring.domain.Appointment;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
@@ -25,6 +29,9 @@ import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 @Component
 public class MenuHandler extends AbstractHandler {
 
+  @Autowired
+  AppointmentDao appointmentDao;
+
   @Override
   public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
       Map<String, Object> context, WxMpService wxMpService,
@@ -33,6 +40,16 @@ public class MenuHandler extends AbstractHandler {
 
     String key = wxMessage.getEventKey();
     WxMenuKey menuKey = null;
+    if (key.equals("order_status")){
+      List<Appointment> list = appointmentDao.findByOpenId(wxMessage.getToUser());
+      if (list.size() == 0){
+        return WxMpXmlOutMessage.TEXT().content("目前没有在进行中的预约").fromUser(wxMessage.getToUser())
+                .toUser(wxMessage.getFromUser()).build();
+      }else {
+        return  WxMpXmlOutMessage.TEXT().content("日期为" + list.get(0).getDate() + "的预约正在审核中，请等候").fromUser(wxMessage.getToUser())
+                .toUser(wxMessage.getFromUser()).build();
+      }
+    }
     try {
       menuKey = JSON.parseObject(key, WxMenuKey.class);
     } catch (Exception e) {

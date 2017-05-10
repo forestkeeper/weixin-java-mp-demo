@@ -23,7 +23,7 @@
           {
             "type":"click",
             "name":"进度查询",
-            "key":"预约中！",
+            "key":"order_status",
             "sub_button":[
 
             ]
