@@ -41,7 +41,7 @@ public class MenuHandler extends AbstractHandler {
     String key = wxMessage.getEventKey();
     WxMenuKey menuKey = null;
     if (key.equals("order_status")){
-      List<Appointment> list = appointmentDao.findByOpenId(wxMessage.getToUser());
+      List<Appointment> list = appointmentDao.findByOpenId(wxMessage.getFromUser());
       if (list.size() == 0){
         return WxMpXmlOutMessage.TEXT().content("目前没有在进行中的预约").fromUser(wxMessage.getToUser())
                 .toUser(wxMessage.getFromUser()).build();
