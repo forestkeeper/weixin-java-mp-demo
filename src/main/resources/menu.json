@@ -64,6 +64,14 @@
             "sub_button":[
 
             ]
+          },
+          {
+            "type":"view",
+            "name":"车检问答",
+            "url":"https://mp.weixin.qq.com/s?__biz=MzU1MTAyOTU0NQ==&tempkey=6z%2BRv6i01OllhjOAqsAc72xlslpdBHj1CnepKVIuDns65fbnLd3t4SAXLZnQyhsqAewleaxnE2PADCac7Ixi0%2BqK3fH8EIYc8d2rRW6hRtdpWzwTuEbGzUvr9MPNCqZsb%2FTdVYPpfq048GPJ3vXg0A%3D%3D&chksm=7b96df444ce15652cbe530aa082df0db6624d5a49df865ebe62a189a3776226a04dd2795ea93#rd",
+            "sub_button":[
+
+            ]
           }
         ]
       },
@@ -73,7 +81,7 @@
           {
             "type":"view",
             "name":"公司概况",
-            "url":"http://www.soso.com/",
+            "url":"https://mp.weixin.qq.com/s?__biz=MzU1MTAyOTU0NQ==&tempkey=6z%2BRv6i01OllhjOAqsAc72xlslpdBHj1CnepKVIuDnsmQjjpRlGfF1P77MNkf0KTwF5FUZO6cUN6q8jdGrTlwyhzSRIVskBGKBFphwovxLlpWzwTuEbGzUvr9MPNCqZsI9wPGIXw3JwCeoFpsz%2FkDA%3D%3D&chksm=7b96df474ce15651f5eb924b483627fbcae613cd90598eb233458c64924a86785de3dba53520#rd",
             "sub_button":[
 
             ]
