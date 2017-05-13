@@ -61,7 +61,6 @@ public class WebController {
      * @param name
      * @param chepai
      * @param date
-     * @param driverLicense
      * @param tel
      * @param file2
      * @return
@@ -72,7 +71,6 @@ public class WebController {
                                      @RequestParam(name = "name", required = true) String name,
                                      @RequestParam(name = "chepai", required = true) String chepai,
                                      @RequestParam(name = "date", required = true) String date,
-                                     @RequestParam(name = "driverLicense", required = true) String driverLicense,
                                      @RequestParam(name = "tel", required = true) String tel,
                                      @RequestParam(name = "file2", required = false) MultipartFile file2
                       ) {
@@ -106,7 +104,7 @@ public class WebController {
         appointment.setRealName(name);
         appointment.setChepai(chepai);
         appointment.setDate(Date.valueOf(date));
-        appointment.setDriverLicense(driverLicense);
+        appointment.setDriverLicense("");
         appointment.setTel(tel);
         appointmentDao.save(appointment);
         ret.put("success", true);
