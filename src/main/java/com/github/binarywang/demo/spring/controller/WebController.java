@@ -49,6 +49,23 @@ public class WebController {
         }
     }
 
+    /**
+     * 8:30 ~ 11:30
+     * 2:00 ~ 4:00
+     * 5 vehicles per hour
+     * 一个电话号码一年内最多2辆，最多预约两次
+     * 一个微信号最多2辆
+     * 过时不候
+     * @param session
+     * @param file1
+     * @param name
+     * @param chepai
+     * @param date
+     * @param driverLicense
+     * @param tel
+     * @param file2
+     * @return
+     */
     @RequestMapping("/uploader/yuyue")
     @ResponseBody
     public Map<String, Object> yuyue(HttpSession session, @RequestParam(name = "file1" ,required = false) MultipartFile file1,

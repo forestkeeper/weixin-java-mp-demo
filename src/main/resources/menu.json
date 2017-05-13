@@ -7,7 +7,15 @@
           {
             "type":"view",
             "name":"一键导航",
-            "url":"",
+            "url":"http://f.amap.com/6cSyf_0A12Mey",
+            "sub_button":[
+
+            ]
+          },
+          {
+            "type":"click",
+            "name":"一键联系",
+            "key":"0575-85666658",
             "sub_button":[
 
             ]
@@ -32,14 +40,6 @@
             "type":"view",
             "name":"预约检车",
             "url":"uploader",
-            "sub_button":[
-
-            ]
-          },
-          {
-            "type":"view",
-            "name":"上门取车",
-            "url":"quche",
             "sub_button":[
 
             ]
