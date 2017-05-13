@@ -49,7 +49,7 @@ public class WebController {
         }
     }
 
-    @RequestMapping("/yuyue")
+    @RequestMapping("/uploader/yuyue")
     @ResponseBody
     public Map<String, Object> yuyue(HttpSession session, @RequestParam(name = "file1" ,required = false) MultipartFile file1,
                                      @RequestParam(name = "name", required = true) String name,

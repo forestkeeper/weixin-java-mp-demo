@@ -92,7 +92,7 @@ public class WeixinService extends WxMpServiceImpl {
       for (WxMenuButton button : wxMenu.getButtons().get(0).getSubButtons()){
         if (button.getType().equals("view")
                 && !button.getUrl().startsWith("http://")){
-          button.setUrl(this.oauth2buildAuthorizationUrl(wxConfig.getUrlBase() + "/weixin/auth", "snsapi_userinfo",button.getUrl()));
+          button.setUrl(this.oauth2buildAuthorizationUrl(wxConfig.getUrlBase() + "/auth", "snsapi_userinfo",button.getUrl()));
         }
       }
     } catch (IOException e) {

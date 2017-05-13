@@ -15,7 +15,7 @@
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="dashboard.css" rel="stylesheet">
+    <link href="../dashboard.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -35,7 +35,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/weixin/admin/">后台管理系统</a>
+            <a class="navbar-brand" href="../manage">后台管理系统</a>
         </div>
     </div>
 </nav>
@@ -44,10 +44,10 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li><a href="/weixin/admin/">预约管理 <span class="sr-only">(current)</span></a></li>
-                <li><a href="/weixin/admin/quche.html">上门取车</a></li>
-                <li><a href="/weixin/admin/report.html">报表</a></li>
-                <li class="active"><a href="/weixin/admin/history.html">历史记录</a></li>
+                <li><a href="../manage">预约管理 <span class="sr-only">(current)</span></a></li>
+                <li  class="active"><a href="../quche">上门取车</a></li>
+                <li><a href="../report">报表</a></li>
+                <li><a href="../history">历史记录</a></li>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -71,7 +71,7 @@
             if (data == "true")
                 return true;
             else {
-                window.location.href='login.html';
+                window.location.href='../login';
             }
         })
     }

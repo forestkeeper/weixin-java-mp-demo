@@ -37,23 +37,23 @@ public class AdminController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping("/doLogin")
+    @RequestMapping("/login/doLogin")
     public String login(HttpSession session, @RequestParam String userName , @RequestParam String passWord){
         if (adminDao.validate(userName,passWord)) {
             session.setAttribute("admin_user", userName);
-            return "redirect:/admin";
+            return "redirect:/admin/manage";
         }else{
-            return "redirect:/admin/login.html";
+            return "redirect:/admin/login";
         }
     }
 
-    @RequestMapping("/isLogin")
+    @RequestMapping("/{from}/isLogin")
     @ResponseBody
     public String isLogin(HttpSession session){
         return session.getAttribute("admin_user")!=null?"true":"false";
     }
 
-    @RequestMapping("/appointments")
+    @RequestMapping("/manage/appointments")
     @ResponseBody
     public Map<String,Object> listAppointments(@RequestParam(required = true) int offset, @RequestParam(required = true) int limit){
         List<Appointment> list = appointmentDao.list(offset,limit);
@@ -63,7 +63,7 @@ public class AdminController {
         return map;
     }
 
-    @RequestMapping("/passAppointment")
+    @RequestMapping("/manage/passAppointment")
     @ResponseBody
     public Map<String, Object> passAppointment(@RequestParam(required = true) long id)  {
         Map<String, Object> ret = new HashMap<String,Object>();
@@ -84,7 +84,7 @@ public class AdminController {
         return ret;
     }
 
-    @RequestMapping("/notPassAppointment")
+    @RequestMapping("/manage/notPassAppointment")
     @ResponseBody
     public Map<String, Object> notPassAppointment(@RequestParam(required = true) long id) throws WxErrorException {
         Map<String, Object> ret = new HashMap<String,Object>();
