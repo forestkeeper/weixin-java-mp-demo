@@ -59,10 +59,9 @@ public class MenuHandler extends AbstractHandler {
     }else if (key.equals("about_us")){
       WxMpXmlOutNewsMessage.Item item
               = new WxMpXmlOutNewsMessage.Item();
-      item.setDescription("号外号外，各位车友，\n" +
-              "绍兴市柯桥区车辆检测中心有限公司安昌站明天开始正式营业了。。。");
+      item.setDescription("柯桥车辆检测中心安昌站简介");
       item.setPicUrl("https://mmbiz.qpic.cn/mmbiz_png/HkQHXpE6t3a2Pn0Ax6l3zD58DfSQ2l9mU4snj56jnt6GLn7Wgibtf8MLaBlqTQ4ibN76jZhcU0k2VzKIofspic8yQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1");
-      item.setTitle("柯桥区各位车友，车辆检测中心安昌站明天开始正常营业啦");
+      item.setTitle("柯桥车辆检测中心安昌站简介");
       item.setUrl("https://mp.weixin.qq.com/s?__biz=MzU1MTAyOTU0NQ==&mid=100000001&idx=1&sn=414fb98938b4dd12c9c317e3042485d0&chksm=7b96df474ce15651f5eb924b483627fbcae613cd90598eb233458c64924a86785de3dba53520&mpshare=1&scene=1&srcid=05117RDDDa7qn4JzAgAzylyR&key=7489dcaf600290efb63e0e0a735695c42057370bcd464f625614f36de76a5da7cbdf15d5856dc229ae3acce588f3c539c79926e6508f8d3555eacad12978b981314ad7a8a0835f0d14b7317a68c83dc7&ascene=0&uin=Mjk1NDU1&devicetype=iMac+MacBookPro11%2C1+OSX+OSX+10.12.3+build(16D32)&version=12020610&nettype=WIFI&fontScale=100&pass_ticket=AweLurxw0uk9r6QnE3NC%2FniRJHrQYT94f%2Fo3ceRlIro%3D");
       return WxMpXmlOutMessage.NEWS().addArticle(item).fromUser(wxMessage.getToUser()).toUser(wxMessage.getFromUser()).build();
     }else if (key.equals("faq")){
