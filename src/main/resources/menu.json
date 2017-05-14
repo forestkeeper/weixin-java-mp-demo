@@ -93,14 +93,6 @@
             "sub_button":[
 
             ]
-          },
-          {
-            "type":"click",
-            "name":"赞一下我们",
-            "key":"V1001_GOOD",
-            "sub_button":[
-
-            ]
           }
         ]
       }

@@ -3,6 +3,7 @@ package com.github.binarywang.demo.spring.controller;
 import com.github.binarywang.demo.spring.dao.AppointmentDao;
 import com.github.binarywang.demo.spring.domain.Appointment;
 import com.github.binarywang.demo.spring.service.WeixinService;
+import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
@@ -13,8 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +38,12 @@ public class WebController {
     private AppointmentDao appointmentDao;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @RequestMapping("/signature")
+    @ResponseBody
+    public WxJsapiSignature getSignature(@RequestParam(name = "url", required = true) String url) throws WxErrorException {
+        return wxService.createJsapiSignature(url);
+    }
 
     @RequestMapping("/auth")
     public String auth(HttpSession session, @RequestParam(name = "code", required = true) String code,
@@ -73,9 +83,9 @@ public class WebController {
                                      @RequestParam(name = "date", required = true) String date,
                                      @RequestParam(name = "tel", required = true) String tel,
                                      @RequestParam(name = "file2", required = false) MultipartFile file2
-                      ) {
+                      ) throws ParseException {
         Map<String, Object> ret = new HashMap<String, Object>();
-        Date date1 = Date.valueOf(date);
+        Date date1 = new Date(new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(date.replaceAll("T"," ")).getTime());
         if (date1.before(Calendar.getInstance().getTime())
                 || date1.equals(Calendar.getInstance().getTime())){
             ret.put("success", false);
@@ -98,12 +108,13 @@ public class WebController {
             ret.put("reason", "当天预约数量已满");
             return ret;
         }
+
         Appointment appointment = new Appointment();
         appointment.setName(wxMpUser.getNickname());
         appointment.setOpenId(wxMpUser.getOpenId());
         appointment.setRealName(name);
         appointment.setChepai(chepai);
-        appointment.setDate(Date.valueOf(date));
+        appointment.setDate(date1);
         appointment.setDriverLicense("");
         appointment.setTel(tel);
         appointmentDao.save(appointment);

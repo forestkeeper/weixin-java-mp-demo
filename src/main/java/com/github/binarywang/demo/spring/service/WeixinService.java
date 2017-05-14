@@ -32,6 +32,9 @@ import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.sql.Date;
 
 
 /**
@@ -206,6 +209,11 @@ public class WeixinService extends WxMpServiceImpl {
 
   protected AbstractHandler getScanHandler() {
     return null;
+  }
+
+  public static void main(String[] args) throws ParseException {
+    String date = "2017-05-17T15:12";
+    Date d = new Date(new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(date.replaceAll("T"," ")).getTime());
   }
 
 }

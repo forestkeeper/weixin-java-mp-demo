@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./example.css"/>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js">
     </script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 </head>
 <body>
 <div class="container" id="container"><div class="page uploader js_show">
@@ -45,7 +46,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label for="" class="weui-label">预约日期</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="date" value="" id = "date">
+                    <input class="weui-input" type="datetime-local" value="" id = "date">
                 </div>
             </div>
             <div class="weui-cell">
@@ -59,7 +60,7 @@
                             <ul class="weui-uploader__files" id="uploaderFiles">
                             </ul>
                             <div class="weui-uploader__input-box" id = "uploaderInputBox">
-                                <input id="uploaderInput" class="weui-uploader__input" name="photo" type="file" accept="image/*" multiple="">
+                                <!--<input id="uploaderInput" class="weui-uploader__input" name="photo" type="file" accept="image/*" multiple="">-->
                             </div>
                         </div>
                     </div>
@@ -74,67 +75,117 @@
     <script type="text/javascript" class="uploader js_show">
 
     $(function(){
+        var url = window.location.href;
+        $.getJSON("../signature?url=" + url , function(map){
+            wx.config({
+            debug: false,
+            appId: map['appId'],
+            timestamp: map['timestamp'],
+            nonceStr: map['nonceStr'],
+            signature: map['signature'],
+            jsApiList: [
+                    'uploadImage',
+                    'chooseImage',
+                    'getLocalImgData'
+                ]
+            });
+        });
+
         var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
             $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
-            $uploaderInput = $("#uploaderInput"),
             $uploaderFiles = $("#uploaderFiles")
             ;
         var arrayObj = new Array();
 
         $("#button").on("click",function(){
             if ($("#uploaderFiles li").size() < 1){
-                alert("未上传图片");
+                alert("请添加驾驶证");
                 return;
             }
-            var data = new FormData();
-            //data.append('file1', arrayObj[0]);
-            data.append('name', $("#userName").val());
-            data.append('chepai', $("#chepai").val());
-            data.append('tel', $("#tel").val());
-            data.append('date', $("#date").val());
-            $("#button").hide();
-            $.ajax({
-                    type: 'POST',
-                    url :  "yuyue",
-                    data: data,
-                    contentType: false,
-                    processData: false,
-                success: function(data) {
-                    if (data['success'] == true){
-                        alert("预约成功!");
-                        window.location.href='../success';
-                    }else{
-                        alert(data['reason']);
+            wx.uploadImage({
+                localId: arrayObj[0],
+                isShowProgressTips: 1,
+                success: function (res) {
+                    var serverId = res.serverId; // 返回图片的服务器端ID
+                    var data = new FormData();
+                    <!--data.append('file1', arrayObj[0]);-->
+                    data.append('name', $("#userName").val());
+                    data.append('chepai', $("#chepai").val());
+                    data.append('tel', $("#tel").val());
+                    data.append('date', $("#date").val());
+                    $("#button").hide();
+                    $.ajax({
+                        type: 'POST',
+                        url :  "yuyue",
+                        data: data,
+                        contentType: false,
+                        processData: false,
+                    success: function(data) {
+                        if (data['success'] == true){
+                            alert("预约成功!");
+                            window.location.href='../success';
+                        }else{
+                            alert(data['reason']);
+                            $("#button").show();
+                        }
+                    },
+                    error: function() {
+                        alert("预约失败");
                         $("#button").show();
                     }
-                },
-                error: function() {
-                    alert("预约失败");
-                    $("#button").show();
+                    });
                 }
             });
+
         });
 
-        $uploaderInput.on("change", function(e){
-            var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
-            if (files.length > 1){
-                alert("请勿上传多张图片");
-                return;
-            }
-            for (var i = 0, len = files.length; i < len; ++i) {
-                var file = files[i];
-                arrayObj.push(file);
-                if (url) {
-                    src = url.createObjectURL(file);
-                } else {
-                    src = e.target.result;
+        $("#uploaderInputBox").on("click", function(){
+            <!--var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;-->
+            <!--if (files.length > 1){-->
+                <!--alert("请勿上传多张图片");-->
+                <!--return;-->
+            <!--}-->
+            <!--for (var i = 0, len = files.length; i < len; ++i) {-->
+                <!--var file = files[i];-->
+                <!--arrayObj.push(file);-->
+                <!--if (url) {-->
+                    <!--src = url.createObjectURL(file);-->
+                <!--} else {-->
+                    <!--src = e.target.result;-->
+                <!--}-->
+                <!--$uploaderFiles.append($(tmpl.replace('#url#', src)));-->
+                <!--wx.getLocalImgData({-->
+                    <!--localId: src, // 图片的localID-->
+                    <!--success: function (res) {-->
+                        <!--var localData = res.localData; // localData是图片的base64数据，可以用img标签显示-->
+                        <!--wx.uploadImage({-->
+                            <!--localId: localData,-->
+                            <!--isShowProgressTips: 1,-->
+                            <!--success: function (res) {-->
+                                <!--var serverId = res.serverId; // 返回图片的服务器端ID-->
+                            <!--}-->
+                        <!--});-->
+                    <!--}-->
+                <!--});-->
+            <!--}-->
+            wx.chooseImage({
+        		count:1,
+                success: function (res) {
+                    var localId = res.localIds[0];
+                    wx.getLocalImgData({
+                        localId: localId , // 图片的localID
+                        success: function (res) {
+                            var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+                            $uploaderFiles.append($(tmpl.replace('#url#', localData)));
+                            $("#uploadNumber").text( $("#uploaderFiles li").size() + "/1");
+                            if ($("#uploaderFiles li").size() == 1){
+                                $("#uploaderInputBox").hide();
+                            }
+                        }
+                    });
+                    arrayObj.push(localId);
                 }
-                $uploaderFiles.append($(tmpl.replace('#url#', src)));
-            }
-            $("#uploadNumber").text( $("#uploaderFiles li").size() + "/1");
-            if ($("#uploaderFiles li").size() == 1){
-                $("#uploaderInputBox").hide();
-            }
+            });
         });
         $uploaderFiles.on("click", "li", function(){
             $galleryImg.attr("style", this.getAttribute("style"));
