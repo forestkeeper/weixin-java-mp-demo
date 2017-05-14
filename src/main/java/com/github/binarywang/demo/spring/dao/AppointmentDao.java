@@ -29,10 +29,10 @@ public class AppointmentDao {
 
     public void save(Appointment appointment){
         jdbcTemplate.update("insert into appointment " +
-                        "(real_name, open_id, name,chepai,date,driver_license, tel, book_time) " +
-                        "values (?,?,?,?,?,?,?,now())",
+                        "(real_name, open_id, name,chepai,date,driver_license, tel, book_time, server_id) " +
+                        "values (?,?,?,?,?,?,?,now(),?)",
                 appointment.getRealName(), appointment.getOpenId(), appointment.getName(), appointment.getChepai(), appointment.getDate(), appointment.getDriverLicense(),
-                appointment.getTel());
+                appointment.getTel(),appointment.getServerId());
     }
 
     public Appointment find(long id){
@@ -97,7 +97,7 @@ public class AppointmentDao {
             appointment.setDriverLicense(resultSet.getString("driver_license"));
             appointment.setDate(resultSet.getDate("date"));
             appointment.setChepai(resultSet.getString("chepai"));
-
+            appointment.setServerId(resultSet.getString("server_id"));
             return appointment;
         }
     }

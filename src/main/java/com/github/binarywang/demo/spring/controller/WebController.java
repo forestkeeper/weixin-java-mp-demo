@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.text.ParseException;
@@ -82,7 +81,8 @@ public class WebController {
                                      @RequestParam(name = "chepai", required = true) String chepai,
                                      @RequestParam(name = "date", required = true) String date,
                                      @RequestParam(name = "tel", required = true) String tel,
-                                     @RequestParam(name = "file2", required = false) MultipartFile file2
+                                     @RequestParam(name = "file2", required = false) MultipartFile file2,
+                                     @RequestParam(name = "serverId", required = true) String serverId
                       ) throws ParseException {
         Map<String, Object> ret = new HashMap<String, Object>();
         Date date1 = new Date(new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(date.replaceAll("T"," ")).getTime());
@@ -114,14 +114,14 @@ public class WebController {
         appointment.setOpenId(wxMpUser.getOpenId());
         appointment.setRealName(name);
         appointment.setChepai(chepai);
-        appointment.setDate(date1);
+        appointment.setDate(new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(date.replaceAll("T"," ")));
         appointment.setDriverLicense("");
         appointment.setTel(tel);
+        appointment.setServerId(serverId);
         appointmentDao.save(appointment);
         ret.put("success", true);
         return ret;
     }
-
 
     @ResponseBody
     @RequestMapping("/error")

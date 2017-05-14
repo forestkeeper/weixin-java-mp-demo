@@ -109,6 +109,7 @@
                     var serverId = res.serverId; // 返回图片的服务器端ID
                     var data = new FormData();
                     <!--data.append('file1', arrayObj[0]);-->
+                    data.append("serverId", serverId);
                     data.append('name', $("#userName").val());
                     data.append('chepai', $("#chepai").val());
                     data.append('tel', $("#tel").val());

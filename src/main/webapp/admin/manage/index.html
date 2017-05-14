@@ -125,7 +125,9 @@
                                 + '<td>' + json[i].chepai + '</td>'
                                 + '<td>' + json[i].date + '</td>'
                                 + '<td><a onclick="passAppointment(' + json[i].id + ');">预约通过</a>'
-                                + '    <a onclick="notPassAppointment(' + + json[i].id + ');">不通过</a></td></tr>'
+                                + '    <a onclick="notPassAppointment(' + + json[i].id + ');">不通过</a>'
+                                + '    <a href="getPic?serverId=' + json[i].serverId + '">查看图片</a>'
+                                + '</td></tr>'
                                 );
             }
         });

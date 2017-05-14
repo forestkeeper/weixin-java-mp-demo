@@ -17,6 +17,24 @@ public class Appointment {
     private Date date;
     private String driverLicense;
     private String tel;
+    private String serverId;
+    private String path;
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(String serverId) {
+        this.serverId = serverId;
+    }
 
     public long getId() {
         return id;

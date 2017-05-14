@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +64,25 @@ public class AdminController {
         map.put("appoints", list);
         map.put("count", appointmentDao.count());
         return map;
+    }
+
+    @RequestMapping("/manage/getPic")
+    public void getPic(HttpServletRequest request, HttpServletResponse response, @RequestParam String serverId) throws WxErrorException {
+        File file = wxService.getMaterialService().mediaDownload(serverId);
+        FileInputStream fis = null;
+        response.setContentType("image/gif");
+        try {
+            OutputStream out = response.getOutputStream();
+            fis = new FileInputStream(file);
+            byte[] b = new byte[fis.available()];
+            fis.read(b);
+            out.write(b);
+            out.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @RequestMapping("/manage/passAppointment")
