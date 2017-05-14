@@ -5,6 +5,7 @@ import com.github.binarywang.demo.spring.dao.AppointmentDao;
 import com.github.binarywang.demo.spring.domain.Appointment;
 import com.github.binarywang.demo.spring.service.WeixinService;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,9 +91,31 @@ public class AdminController {
     public Map<String, Object> passAppointment(@RequestParam(required = true) long id)  {
         Map<String, Object> ret = new HashMap<String,Object>();
         try {
+            Appointment appointment = appointmentDao.find(id);
+            if (appointment == null){
+                ret.put("success", false);
+                ret.put("reason", "该预约号不存在");
+                return ret;
+            }
             WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
             wxMpTemplateMessage.setToUser(appointmentDao.find(id).getOpenId());
-            wxMpTemplateMessage.setTemplateId("gngDECBVRqQun6OoWFD--ihshqWQBL9zryfctsQIoLs");
+            wxMpTemplateMessage.setTemplateId("A4MA_cZAvz9NBvBxiXOzMIbOYlz7G403X6oFO04wP64");
+            WxMpTemplateData data = new WxMpTemplateData();
+            data.setName("first");
+            data.setValue(" 您好，您的预约已通过");
+            wxMpTemplateMessage.addWxMpTemplateData(data);
+            WxMpTemplateData data1 = new WxMpTemplateData();
+            data1.setName("keyword1");
+            data1.setValue(appointment.getDate().toString());
+            wxMpTemplateMessage.addWxMpTemplateData(data1);
+            WxMpTemplateData data2 = new WxMpTemplateData();
+            data2.setName("keyword2");
+            data2.setValue("车辆检测");
+            wxMpTemplateMessage.addWxMpTemplateData(data2);
+            WxMpTemplateData data3 = new WxMpTemplateData();
+            data3.setName("keyword3");
+            data3.setValue("等待上门检测");
+            wxMpTemplateMessage.addWxMpTemplateData(data3);
             wxService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage);
             appointmentDao.updateStatus(id, 2);
             ret.put("success" , true);
@@ -113,7 +136,21 @@ public class AdminController {
         try {
             WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
             wxMpTemplateMessage.setToUser(appointmentDao.find(id).getOpenId());
-            wxMpTemplateMessage.setTemplateId("45y2dsypCtmcw9hkkfi1IcfnVrg918YaPZHvltYEMis");
+            WxMpTemplateData data1 = new WxMpTemplateData();
+            data1.setName("first");
+            data1.setValue("您好，您的预约失败了");
+            wxMpTemplateMessage.addWxMpTemplateData(data1);
+            WxMpTemplateData data2 = new WxMpTemplateData();
+            data2.setName("keyword1");
+            data2.setValue("车辆检测");
+            wxMpTemplateMessage.addWxMpTemplateData(data2);
+
+            WxMpTemplateData data3 = new WxMpTemplateData();
+            data3.setName("keyword2");
+            data3.setValue(String.valueOf(id));
+            wxMpTemplateMessage.addWxMpTemplateData(data3);
+
+            wxMpTemplateMessage.setTemplateId("U3HinBl-5DQYjIyhgrEtvb95zXKqxFV_ZAaN_o_kK3E");
             wxService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage);
             appointmentDao.updateStatus(id, 3);
             ret.put("success" , true);

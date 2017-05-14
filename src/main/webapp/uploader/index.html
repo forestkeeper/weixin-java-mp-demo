@@ -173,17 +173,25 @@
         		count:1,
                 success: function (res) {
                     var localId = res.localIds[0];
-                    wx.getLocalImgData({
-                        localId: localId , // 图片的localID
-                        success: function (res) {
-                            var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-                            $uploaderFiles.append($(tmpl.replace('#url#', localData)));
-                            $("#uploadNumber").text( $("#uploaderFiles li").size() + "/1");
-                            if ($("#uploaderFiles li").size() == 1){
-                                $("#uploaderInputBox").hide();
+                    if (res.checkResult.getLocalImgData) {
+                        wx.getLocalImgData({
+                            localId: localId , // 图片的localID
+                            success: function (res) {
+                                var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+                                $uploaderFiles.append($(tmpl.replace('#url#', localData)));
+                                $("#uploadNumber").text( $("#uploaderFiles li").size() + "/1");
+                                if ($("#uploaderFiles li").size() == 1){
+                                    $("#uploaderInputBox").hide();
+                                }
                             }
+                        });
+                    }else{
+                        $uploaderFiles.append($(tmpl.replace('#url#', localId)));
+                        $("#uploadNumber").text( $("#uploaderFiles li").size() + "/1");
+                        if ($("#uploaderFiles li").size() == 1){
+                            $("#uploaderInputBox").hide();
                         }
-                    });
+                    }
                     arrayObj.push(localId);
                 }
             });
