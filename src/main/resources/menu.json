@@ -21,9 +21,9 @@
             ]
           },
           {
-            "type":"view",
+            "type":"click",
             "name":"车检流程",
-            "url":"",
+            "key":"pipeline",
             "sub_button":[
 
             ]

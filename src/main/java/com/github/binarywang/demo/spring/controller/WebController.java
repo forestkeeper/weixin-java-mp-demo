@@ -82,10 +82,11 @@ public class WebController {
                                      @RequestParam(name = "date", required = true) String date,
                                      @RequestParam(name = "tel", required = true) String tel,
                                      @RequestParam(name = "file2", required = false) MultipartFile file2,
-                                     @RequestParam(name = "serverId", required = true) String serverId
+                                     @RequestParam(name = "serverId", required = true) String serverId,
+                                     @RequestParam(name = "time", required = true) int time
                       ) throws ParseException {
         Map<String, Object> ret = new HashMap<String, Object>();
-        Date date1 = new Date(new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(date.replaceAll("T"," ")).getTime());
+        Date date1 = Date.valueOf(date);
         if (date1.before(Calendar.getInstance().getTime())
                 || date1.equals(Calendar.getInstance().getTime())){
             ret.put("success", false);
@@ -103,7 +104,12 @@ public class WebController {
             ret.put("reason", "预约正在进行中");
             return ret;
         }
-        if (appointmentDao.countForDay(date) >= 10){
+        if (appointmentDao.countForDay(date,time) >= 15 && time == 0){
+            ret.put("success", false);
+            ret.put("reason", "当天预约数量已满");
+            return ret;
+        }
+        if (appointmentDao.countForDay(date,time) >= 10 && time == 1){
             ret.put("success", false);
             ret.put("reason", "当天预约数量已满");
             return ret;
@@ -114,10 +120,11 @@ public class WebController {
         appointment.setOpenId(wxMpUser.getOpenId());
         appointment.setRealName(name);
         appointment.setChepai(chepai);
-        appointment.setDate(new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(date.replaceAll("T"," ")));
+        appointment.setDate(date1);
         appointment.setDriverLicense("");
         appointment.setTel(tel);
         appointment.setServerId(serverId);
+        appointment.setTime(time);
         appointmentDao.save(appointment);
         ret.put("success", true);
         return ret;

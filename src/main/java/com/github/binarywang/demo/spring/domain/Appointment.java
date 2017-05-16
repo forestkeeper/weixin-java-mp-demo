@@ -19,6 +19,7 @@ public class Appointment {
     private String tel;
     private String serverId;
     private String path;
+    private int time;
 
     public String getPath() {
         return path;
@@ -98,5 +99,13 @@ public class Appointment {
 
     public void setChepai(String chepai) {
         this.chepai = chepai;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
 }

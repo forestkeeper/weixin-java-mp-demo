@@ -29,10 +29,10 @@ public class AppointmentDao {
 
     public void save(Appointment appointment){
         jdbcTemplate.update("insert into appointment " +
-                        "(real_name, open_id, name,chepai,date,driver_license, tel, book_time, server_id) " +
-                        "values (?,?,?,?,?,?,?,now(),?)",
+                        "(real_name, open_id, name,chepai,date,driver_license, tel, book_time, server_id, time) " +
+                        "values (?,?,?,?,?,?,?,now(),?,?)",
                 appointment.getRealName(), appointment.getOpenId(), appointment.getName(), appointment.getChepai(), appointment.getDate(), appointment.getDriverLicense(),
-                appointment.getTel(),appointment.getServerId());
+                appointment.getTel(),appointment.getServerId(), appointment.getTime());
     }
 
     public Appointment find(long id){
@@ -75,8 +75,8 @@ public class AppointmentDao {
         return jdbcTemplate.query("select * from appointment where open_id = ? and status = 2", new Object[]{openId}, new AppointmentRowMapper());
     }
 
-    public Long countForDay(String date){
-        return jdbcTemplate.queryForObject("select count(id) from appointment where date = ?", new Object[]{date}, new RowMapper<Long>() {
+    public Long countForDay(String date, int time){
+        return jdbcTemplate.queryForObject("select count(id) from appointment where date = ? and time = ?", new Object[]{date, time}, new RowMapper<Long>() {
             @Override
             public Long mapRow(ResultSet resultSet, int i) throws SQLException {
                 return resultSet.getLong(1);
@@ -98,6 +98,7 @@ public class AppointmentDao {
             appointment.setDate(resultSet.getDate("date"));
             appointment.setChepai(resultSet.getString("chepai"));
             appointment.setServerId(resultSet.getString("server_id"));
+            appointment.setTime(resultSet.getInt("time"));
             return appointment;
         }
     }

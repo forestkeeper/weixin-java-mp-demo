@@ -9,6 +9,7 @@
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js">
     </script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
 </head>
 <body>
 <div class="container" id="container"><div class="page uploader js_show">
@@ -46,9 +47,10 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label for="" class="weui-label">预约日期</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="datetime-local" value="" id = "date">
+                    <input class="weui-input" type="date" value="" id = "date">
                 </div>
             </div>
+            <a href="javascript:;" class="weui-btn weui-btn_default" id="showPicker">选择上下午</a>
             <div class="weui-cell">
                 <div class="weui-cell__bd">
                     <div class="weui-uploader">
@@ -75,6 +77,26 @@
     <script type="text/javascript" class="uploader js_show">
 
     $(function(){
+        var time = 0;
+        $('#showPicker').on('click', function () {
+            weui.picker([{
+                label: '上午',
+                value: 0
+            }, {
+                label: '下午',
+                value: 1
+            }], {
+                onChange: function (result) {
+                    //donothing
+                },
+                onConfirm: function (result) {
+                    time = result;
+                    $('#showPicker').val = "休闲鞋"
+                }
+            });
+        });
+
+
         var url = window.location.href;
         $.getJSON("../signature?url=" + url , function(map){
             wx.config({
@@ -114,6 +136,7 @@
                     data.append('chepai', $("#chepai").val());
                     data.append('tel', $("#tel").val());
                     data.append('date', $("#date").val());
+                    data.append('time', time);
                     $("#button").hide();
                     $.ajax({
                         type: 'POST',
@@ -173,7 +196,6 @@
         		count:1,
                 success: function (res) {
                     var localId = res.localIds[0];
-                    if (res.checkResult.getLocalImgData) {
                         wx.getLocalImgData({
                             localId: localId , // 图片的localID
                             success: function (res) {
@@ -185,13 +207,6 @@
                                 }
                             }
                         });
-                    }else{
-                        $uploaderFiles.append($(tmpl.replace('#url#', localId)));
-                        $("#uploadNumber").text( $("#uploaderFiles li").size() + "/1");
-                        if ($("#uploaderFiles li").size() == 1){
-                            $("#uploaderInputBox").hide();
-                        }
-                    }
                     arrayObj.push(localId);
                 }
             });
