@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -90,7 +89,22 @@ public class WebController {
         if (date1.before(Calendar.getInstance().getTime())
                 || date1.equals(Calendar.getInstance().getTime())){
             ret.put("success", false);
-            ret.put("reason", "只能选择包括明天开始的日期");
+            ret.put("reason", "只能选择提前1-7个工作日的日期");
+            return ret;
+        }
+        if (wxService.getDayCounter().getCount(Calendar.getInstance().getTime(), date1) > 7){
+            ret.put("success", false);
+            ret.put("reason", "不能预约超过7工作日的日期");
+            return ret;
+        }
+        if (wxService.getDayCounter().getCount(Calendar.getInstance().getTime(), date1) < 1){
+            ret.put("success", false);
+            ret.put("reason", "请提前一个工作日");
+            return ret;
+        }
+        if (wxService.getDayCounter().isHoliday(date1)){
+            ret.put("success", false);
+            ret.put("reason", "法定节假日无法提供服务");
             return ret;
         }
         WxMpUser wxMpUser = (WxMpUser) session.getAttribute("userOpenId");
@@ -101,17 +115,32 @@ public class WebController {
         }
         if (appointmentDao.findInOrderingAppointmentByOpenId(wxMpUser.getOpenId()).size()>0){
             ret.put("success", false);
-            ret.put("reason", "预约正在进行中");
+            ret.put("reason", "现有预约正在进行中，不能同时预约两个车");
             return ret;
         }
+        if (appointmentDao.isInBlackList(tel, wxMpUser.getOpenId())){
+            ret.put("success", false);
+            ret.put("reason",  "3次预约不出现，已进入黑名单");
+        }
+        if (appointmentDao.findCountByOpenId(wxMpUser.getOpenId()) > 2){
+            ret.put("success", false);
+            ret.put("reason", "同一个微信号，一年只能预约两次");
+            return ret;
+        }
+        if (appointmentDao.findCountByTel(tel) > 2){
+            ret.put("success", false);
+            ret.put("reason", "同一个电话，一年只能预约两次");
+            return ret;
+        }
+
         if (appointmentDao.countForDay(date,time) >= 15 && time == 0){
             ret.put("success", false);
-            ret.put("reason", "当天预约数量已满");
+            ret.put("reason", "当天上午预约数量已满");
             return ret;
         }
         if (appointmentDao.countForDay(date,time) >= 10 && time == 1){
             ret.put("success", false);
-            ret.put("reason", "当天预约数量已满");
+            ret.put("reason", "当天下午预约数量已满");
             return ret;
         }
 

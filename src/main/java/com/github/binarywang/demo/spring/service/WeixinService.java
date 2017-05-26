@@ -2,6 +2,7 @@ package com.github.binarywang.demo.spring.service;
 
 import javax.annotation.PostConstruct;
 
+import com.github.binarywang.demo.spring.utils.DayCounter;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.bean.menu.WxMenuButton;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -81,8 +82,20 @@ public class WeixinService extends WxMpServiceImpl {
 
   private WxMpMessageRouter router;
 
+  private DayCounter dayCounter;
+
+  public DayCounter getDayCounter() {
+    return dayCounter;
+  }
+
   @PostConstruct
   public void init() {
+    dayCounter = new DayCounter();
+    try {
+      dayCounter.init();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     final WxMpInMemoryConfigStorage config = new WxMpInMemoryConfigStorage();
     config.setAppId(this.wxConfig.getAppid());// 设置微信公众号的appid
     config.setSecret(this.wxConfig.getAppsecret());// 设置微信公众号的app corpSecret

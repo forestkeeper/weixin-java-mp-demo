@@ -14,11 +14,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +71,41 @@ public class AdminController {
         return map;
     }
 
+    @RequestMapping("/history/history")
+    @ResponseBody
+    public Map<String,Object> listHistory(@RequestParam(required = true) int offset, @RequestParam(required = true) int limit){
+        List<Appointment> list = appointmentDao.history(offset,limit);
+        Map<String, Object> map = new HashMap<String,Object>();
+        map.put("appoints", list);
+        map.put("count", appointmentDao.count());
+        return map;
+    }
+
+    final String[] header = new String[] { "id", "weixin", "realName", "tel",
+            "status1", "date" };
+
+    @RequestMapping("/report/getCsv")
+    public void getCsv(HttpServletResponse response, @RequestParam String from, @RequestParam String to) throws IOException {
+        String csvFileName = "report.csv";
+        Date from1 = Date.valueOf(from);
+        Date to1 = Date.valueOf(to);
+        String headerKey = "Content-Disposition";
+        String headerValue = String.format("attachment; filename=\"%s\"",
+                csvFileName);
+        response.setHeader(headerKey, headerValue);
+        List<Appointment> list = appointmentDao.findAllByTime(from1, to1);
+        response.setCharacterEncoding("UTF-8");
+        ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
+                CsvPreference.STANDARD_PREFERENCE);
+        csvWriter.writeHeader(new String[]{
+                "订单号","微信号","真实姓名","手机号码","状态","预约日期"
+        });
+        for (Appointment appointment : list) {
+            csvWriter.write(appointment, header);
+        }
+        csvWriter.close();
+    }
+
     @RequestMapping("/manage/getPic")
     public void getPic(HttpServletRequest request, HttpServletResponse response, @RequestParam String serverId) throws WxErrorException {
         File file = wxService.getMaterialService().mediaDownload(serverId);
@@ -85,6 +124,27 @@ public class AdminController {
             e.printStackTrace();
         }
     }
+
+    @RequestMapping("/history/movetoBlacklist")
+    @ResponseBody
+    public Map<String, Object> movetoBlacklist(@RequestParam(required = true) long id)  {
+        Map<String, Object> ret = new HashMap<String,Object>();
+        try {
+            Appointment appointment = appointmentDao.find(id);
+            if (appointment == null){
+                ret.put("success", false);
+                ret.put("reason", "该预约号不存在");
+                return ret;
+            }
+            appointmentDao.updateStatus(id, 4);
+            ret.put("success" , true);
+        } catch (Exception e1){
+            ret.put("success", false);
+            ret.put("reason", e1.getMessage());
+        }
+        return ret;
+    }
+
 
     @RequestMapping("/manage/passAppointment")
     @ResponseBody

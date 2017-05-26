@@ -50,7 +50,7 @@
                     <input class="weui-input" type="date" value="" id = "date">
                 </div>
             </div>
-            <a href="javascript:;" class="weui-btn weui-btn_default" id="showPicker">选择上下午</a>
+            <a href="javascript:;" class="weui-btn weui-btn_default" id="showPicker">上午</a>
             <div class="weui-cell">
                 <div class="weui-cell__bd">
                     <div class="weui-uploader">
@@ -87,11 +87,13 @@
                 value: 1
             }], {
                 onChange: function (result) {
-                    //donothing
                 },
                 onConfirm: function (result) {
                     time = result;
-                    $('#showPicker').val = "休闲鞋"
+                    if (result == 0)
+                        $('#showPicker').text("上午");
+                    else
+                        $('#showPicker').text("下午");
                 }
             });
         });

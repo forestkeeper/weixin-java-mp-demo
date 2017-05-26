@@ -20,6 +20,34 @@ public class Appointment {
     private String serverId;
     private String path;
     private int time;
+    private int status;
+
+    public String getWeixin(){
+        return name;
+    }
+
+    public String getStatus1()
+    {
+        switch (this.getStatus()){
+                case 1:
+                    return "未审核";
+                case 2:
+                    return "已审核";
+                case 3:
+                    return "未通过审核";
+                case 4:
+                    return "未赴约";
+            }
+            return "";
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public String getPath() {
         return path;

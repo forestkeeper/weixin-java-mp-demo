@@ -45,7 +45,6 @@
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li class="active"><a href="../manage">预约管理 <span class="sr-only">(current)</span></a></li>
-                <li><a href="../quche">上门取车</a></li>
                 <li><a href="../report">报表</a></li>
                 <li><a href="../history">历史记录</a></li>
             </ul>
@@ -119,11 +118,14 @@
             var json = map['appoints'];
             var i;
             for (i = 0; i<json.length; ++i){
+                var time = '上午';
+                if (json[i].time == 1)
+                    time = '下午';
                 table.append('<tr><td>'+ json[i].id +'</td>'
                                 + '<td>' + json[i].name + '</td>'
                                 + '<td>' + json[i].realName + '</td>'
                                 + '<td>' + json[i].chepai + '</td>'
-                                + '<td>' + json[i].date + '</td>'
+                                + '<td>' + json[i].date + ' ' + time + '</td>'
                                 + '<td><a onclick="passAppointment(' + json[i].id + ');">预约通过</a>'
                                 + '    <a onclick="notPassAppointment(' + + json[i].id + ');">不通过</a>'
                                 + '    <a href="getPic?serverId=' + json[i].serverId + '">查看图片</a>'
